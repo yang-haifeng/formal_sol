@@ -136,6 +136,48 @@ bool SlabUniform::reachBoundary(double x, double y, double z){
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// Member methods for SlabTwisted class.
+
+SlabTwisted::SlabTwisted(){
+	r_max = 100*AU; h = 10*AU;
+	Kext = 1.0; Kpol = 0.1; Kcpol = 0.01;
+
+	lambda = 0.1; los_theta = 0; los_phi=0; 
+
+	Bnu0 = BnuT(30., con_c/lambda);
+	rho0 = 1e-15;
+
+	k = 10.;
+}
+
+SlabTwisted::SlabTwisted(double Temp, double rho, double height, double rm, double K){
+	r_max = rm; h = height;
+	Kext = 1.0; Kpol = 0.1; Kcpol = 0.01;
+
+	lambda = 0.1; los_theta = 0; los_phi=0; 
+
+	Bnu0 = BnuT(Temp, con_c/lambda);
+	rho0 = rho;
+
+	k = K;
+}
+
+void SlabTwisted::get_Orientation(double x, double y, double z, double &theta, double &phi){
+	theta = PI/2; 
+	phi = k*z*rho0;
+}
+
+void SlabTwisted::test(){
+	double z;
+	double theta, phi;
+	for (int i=0; i<21; i++){
+		z = i-10;
+		get_Orientation(0,0,z*AU, theta, phi);
+		cout<<z<<"\t"<<phi/PI*180<<endl;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // Miscellaneous functions
 
 double BnuT(double T, double nu){

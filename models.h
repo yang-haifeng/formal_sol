@@ -29,7 +29,7 @@ class Model{
 };
 
 class SlabUniform : public Model{
-	private:
+	protected:
 		double Bnu0, rho0;
 		double h; 
 	public:
@@ -37,8 +37,18 @@ class SlabUniform : public Model{
 		SlabUniform(double Temp, double rho, double height, double rm);
 		double get_BnuT(double x, double y, double z);
 		double get_Rho(double x, double y, double z);
-		void get_Orientation(double x, double y, double z, double &theta, double &phi);
+		virtual void get_Orientation(double x, double y, double z, double &theta, double &phi);
 		bool reachBoundary(double x, double y, double z);
+};
+
+class SlabTwisted : public SlabUniform{
+	protected:
+		double k;
+	public:
+		SlabTwisted();
+		SlabTwisted(double Temp, double rho, double height, double rm, double K);
+		virtual void get_Orientation(double x, double y, double z, double &theta, double &phi);
+		void test();
 };
 
 double BnuT(double T, double nu);
