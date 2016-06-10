@@ -27,3 +27,18 @@ class Model{
 
 		virtual void test();
 };
+
+class SlabUniform : public Model{
+	private:
+		double Bnu0, rho0;
+		double h; 
+	public:
+		SlabUniform();
+		SlabUniform(double Temp, double rho, double height, double rm);
+		double get_BnuT(double x, double y, double z);
+		double get_Rho(double x, double y, double z);
+		void get_Orientation(double x, double y, double z, double &theta, double &phi);
+		bool reachBoundary(double x, double y, double z);
+};
+
+double BnuT(double T, double nu);
