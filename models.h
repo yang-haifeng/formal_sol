@@ -22,8 +22,8 @@ class Model{
 		virtual bool reachBoundary(double x, double y, double z);
 
 		Vector4d Integrate(double x, double y, double z, double n_theta, double n_phi, double step=0.1*AU);
-		virtual Vector4d cal_Vabs(double x, double y, double z, double n_theta, double n_phi);
-		virtual Matrix4d cal_Mext(double x, double y, double z, double n_theta, double n_phi);
+		virtual void cal_VM(double x, double y, double z, double n_theta, double n_phi,
+				Vector4d &Vout, Matrix4d &Mout);
 
 		virtual void test();
 };
