@@ -2,6 +2,7 @@
 #include <fstream>
 #include "typedef.h"
 #include "models.h"
+#include "utils.h"
 using namespace std;
 
 int main(){
@@ -15,6 +16,7 @@ int main(){
 	*/
 	//SlabTwisted M1 = SlabTwisted();
 	//M1.test();
+	/*
 	Vector4d Vt;
 	double k;
 	int N=180;
@@ -25,4 +27,9 @@ int main(){
 		//cout<<Vt[0]<<"\t"<<Vt[1]<<endl;
 		cout<<180./N*i<<"\t"<<Vt[0]<<"\t"<<Vt[1]<<"\t"<<Vt[2]<<"\t"<<Vt[3]<<endl;
 	}
+	*/
+
+	SlabSphGrain M1 = SlabSphGrain();
+	cout<<M1.Image(0,0,10*AU, PI/4, 0);
+	//cout<<get_psi(PI/2, 0, PI/2, 0)<<endl;
 }
