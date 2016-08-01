@@ -97,6 +97,8 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 		cal_VM(xp, yp, zp, l_theta, l_phi, Vabs, Mext);
 
 		Ssca = Vector4d::Constant(0);
+		/*
+		*/
 		get_Orientation(xp, yp, zp, btheta, bphi);
 		to_grain_frame(btheta, bphi, l_theta, l_phi, theta2, phi2);
 		psi2 = get_psi(btheta, bphi, theta, phi);
@@ -130,6 +132,7 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 		}
 
 		result += (Vabs * rho * bnuT + Ssca)*step;
+		//cout<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<" "<<endl;
 
 		T -= T*Mext * step * rho;
 		xp += dx; yp += dy; zp += dz;
