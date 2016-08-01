@@ -11,7 +11,7 @@ void to_grain_frame(double btheta, double bphi, double theta, double phi,
 	double dphi = phi-bphi;
 	double costheta = sin(btheta) * sin(theta) * cos(dphi) + cos(btheta) * cos(theta);
 	thetap = acos(costheta);
-	phip = atan2(sin(theta) * sin(phi), cos(btheta) * sin(theta) * cos(dphi) - sin(btheta) * cos(theta) );
+	phip = atan2(sin(theta) * sin(dphi), cos(btheta) * sin(theta) * cos(dphi) - sin(btheta) * cos(theta) );
 }
 
 Matrix4d rotation_Matrix(double psi){
