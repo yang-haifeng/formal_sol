@@ -37,7 +37,7 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 	et2 << cos(theta_o) * cos(phi_o), cos(theta_o) * sin(phi_o), -sin(theta_o);
 	ep2 << -sin(phi_o), cos(phi_o), 0;
 
-	double factor = 3./16./PI * Ksca;
+	double factor = 3./8./PI * Ksca;
 	double ftt, ftp, fpt, fpp;
 	ftt = et1.transpose() * et2;
 	ftp = et1.transpose() * ep2;
@@ -71,6 +71,7 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 		Z21, Z22, Z23, Z24,
 		Z31, Z32, Z33, Z34,
 		Z41, Z42, Z43, Z44;
+	M*=factor;
 	return M;
 
 	/*
