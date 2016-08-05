@@ -322,7 +322,7 @@ SlabSphGrain::SlabSphGrain(){
 	lambda = 0.1; //los_theta = 0; los_phi=0; 
 
 	Bnu0 = BnuT(30., con_c/lambda);
-	rho0 = 1e-15;
+	rho0 = 1e-15; // Note that this default density will give tau=0.3 at Face-on.
 }
 
 SlabSphGrain::SlabSphGrain(double Temp, double rho, double height, double rm){
@@ -338,9 +338,9 @@ SlabSphGrain::SlabSphGrain(double Temp, double rho, double height, double rm){
 
 void SlabSphGrain::get_Orientation(double x, double y, double z, double &theta, double &phi){
 	//double epsilon = 0.05;
-	theta = PI/2; 
-	//phi = 0;
-	phi = PI/Nphi;
+	theta = 0.; 
+	phi = 0.;
+	//phi = PI/Nphi;
 }
 
 /////////////////////////////////////////////////////////////////////////////
