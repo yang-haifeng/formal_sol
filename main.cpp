@@ -6,6 +6,7 @@
 using namespace std;
 
 int main(){
+	// Testing No.1: I = 1-e^(-tau);
 	/*
 	Vector4d Vt;
 	for (int i=0; i<10; i++){
@@ -14,8 +15,13 @@ int main(){
 		cout<<Vt[0]<<"\t"<<Vt[1]<<endl;
 	}
 	*/
+
+
+	// This simply tests the orientation setup
 	//SlabTwisted M1 = SlabTwisted();
 	//M1.test();
+	
+	// This test against Martin 1974
 	/*
 	Vector4d Vt;
 	double k;
@@ -30,7 +36,6 @@ int main(){
 	*/
 
 	/*
-	*/
 	SlabSphGrain M1 = SlabSphGrain();
 	Vector4d result;
 	double theta;
@@ -42,8 +47,21 @@ int main(){
 	  result = M1.Image(0, 0, 10*AU, theta, 0);
 	  Fout<<theta<<" "<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<endl;
 	}
-	//cout<<get_psi(PI/2, 0, PI/2, 0)<<endl;
-	//
+	*/
+
+	// Tests for get_psi
+	double theta;
+	cout<<"Test1"<<endl;
+	for (int i=0; i<10; i++){
+		theta = PI/10*i;
+	  	cout<<theta<<" "<<get_psi(0, 0, theta, 0)<<endl;
+	}
+	cout<<"Test2"<<endl;
+	for (int i=0; i<10; i++){
+		theta = PI/10*i;
+	  	cout<<theta<<" "<<get_psi(theta, 0, PI/2, PI/2)<<endl;
+	}
+	// Tests for to_grain_frame
 	/*
 	double btheta = 1., bphi = 0;
 	double theta, phi;
