@@ -35,21 +35,8 @@ int main(){
 	}
 	*/
 
-	/*
-	SlabSphGrain M1 = SlabSphGrain();
-	Vector4d result;
-	double theta;
-	ofstream Fout;
-	Fout.open("test/out2");
-	for (int i=0;i<10;i++){
-	  theta = i/10.*PI/2;
-	  cout<<"Working on: l_theta = "<<theta<<endl;
-	  result = M1.Image(0, 0, 10*AU, theta, 0);
-	  Fout<<theta<<" "<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<endl;
-	}
-	*/
-
 	// Tests for get_psi
+	/*
 	double theta;
 	cout<<"Test1"<<endl;
 	for (int i=0; i<10; i++){
@@ -61,6 +48,14 @@ int main(){
 		theta = PI/10*i;
 	  	cout<<theta<<" "<<get_psi(theta, 0, PI/2, PI/2)<<endl;
 	}
+	cout<<"Test3"<<endl;
+	double phi;
+	for (int i=0; i<10; i++){
+		phi = PI/10*i;
+	  	cout<<phi<<" "<<get_psi(PI/2, 0, PI/2, phi)<<endl;
+	}
+	*/
+
 	// Tests for to_grain_frame
 	/*
 	double btheta = 1., bphi = 0;
@@ -79,4 +74,18 @@ int main(){
 
 	//SlabSphGrain M1 = SlabSphGrain();
 	//cout<< M1.Image(0, 0, 10*AU, 0., 0.)<<endl;
+
+	SlabSphGrain M1 = SlabSphGrain();
+	Vector4d result;
+	double theta;
+	ofstream Fout;
+	Fout.open("test/out2");
+	for (int i=0;i<10;i++){
+	  theta = i/10.*PI/2;
+	  cout<<"Working on: l_theta = "<<theta<<endl;
+	  result = M1.Image(0, 0, 10*AU, theta, 0);
+	  Fout<<theta<<" "<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<endl;
+	}
+	/*
+	*/
 }
