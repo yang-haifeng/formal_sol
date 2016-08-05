@@ -88,7 +88,7 @@ int main(){
 	Vector4d result;
 	double theta;
 	ofstream Fout;
-	Fout.open("test/out2");
+	Fout.open("test/RTv1.txt");
 	for (int i=0;i<10;i++){
 	  theta = i/10.*PI/2;
 	  cout<<"Working on: l_theta = "<<theta<<endl;
@@ -97,4 +97,48 @@ int main(){
 	  Fout<<theta<<" "<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<endl;
 	}
 	*/
+
+	// Rayleigh Test with different phi angle at theta = PI/4.
+	/*
+	SlabSphGrain M1 = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
+	Vector4d result;
+	double phi;
+	ofstream Fout;
+	Fout.open("test/RTv2.txt");
+	for (int i=0; i<36; i++){
+	  phi = i*10./180.*PI;
+	  cout<<"Working on: l_phi = "<<phi<<endl;
+	  result = M1.Image(0, 0, 10*AU, PI/4., phi);
+	  //result = M1.Integrate(0, 0, 10*AU, theta, 0);
+	  Fout<<phi<<" "<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<endl;
+	}
+	*/
+
+	// Let's generate a full image.
+	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
+	int Nx = 100, Ny = 100;
+	double theta = PI/4.;
+	double xmin = -50*AU, xmax = 50*AU;
+	double ymin = -50*AU, ymax = 50*AU;
+	double dx = (xmax-xmin)/Nx;
+	double dy = (ymax-ymin)/Ny;
+	double x,y;
+	double deltaX = 10*AU * tan(theta);
+	ofstream Fout;
+	Fout.open("test/Rayleigh_inclDisk.txt");
+	Vector4d result;
+	Fout<<"#x\ty\tI\tQ\tU\tV"<<endl;
+	for (int i=0; i<Nx+1; i++){
+	for (int j=0; j<Ny+1; j++){
+		cout<<"Working on: "<<i<<", "<<j<<endl;
+		x = xmin + i*dx + deltaX;
+		y = ymin + j*dy;
+		result = M.Image(x, y, 10*AU, PI/4., 0.);
+	  	Fout<<x<<y<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+	}
+	}
 }
+
+
+
+
