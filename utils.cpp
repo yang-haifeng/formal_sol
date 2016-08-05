@@ -4,7 +4,7 @@ double get_psi(double btheta, double bphi, double theta, double phi){
 	double dphi = phi-bphi;
 	double alpha = sin(dphi) * sin(btheta);
 	double beta = cos(theta) * cos(dphi) - sin(theta) * cos(btheta);
-	return acos(beta/sqrt(alpha*alpha+beta*beta));
+	return acos(-beta/sqrt(alpha*alpha+beta*beta));
 }
 
 void to_grain_frame(double btheta, double bphi, double theta, double phi, 
