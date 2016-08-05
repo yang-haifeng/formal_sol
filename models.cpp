@@ -175,7 +175,7 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 			}
 		}
 
-		result += (Vabs * rho * bnuT + Ssca)*step;
+		result += T*(Vabs * rho * bnuT + Ssca)*step;
 		//cout<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<" "<<endl;
 
 		T -= T*Mext * step * rho;
