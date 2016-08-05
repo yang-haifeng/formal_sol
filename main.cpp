@@ -72,10 +72,19 @@ int main(){
 	//}
 	*/
 
-	//SlabSphGrain M1 = SlabSphGrain();
-	//cout<< M1.Image(0, 0, 10*AU, 0., 0.)<<endl;
+	// Test for Z_Matrix from Rayleigh Limit.
+	/*
+	Model M = Model();
+	Matrix4d Z;
+	for (int i=0; i<180; i++){
+		Z = M.get_ZMatrix(0., 0., i/180.*PI, 0.);
+		cout << i <<" "<< -Z(0,1)/Z(0,0)<<endl;
+	}
+	*/
 
-	SlabSphGrain M1 = SlabSphGrain();
+	// The following test is the test for Rayleigh limit with diff incl.
+	/*
+	SlabSphGrain M1 = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
 	Vector4d result;
 	double theta;
 	ofstream Fout;
@@ -84,8 +93,8 @@ int main(){
 	  theta = i/10.*PI/2;
 	  cout<<"Working on: l_theta = "<<theta<<endl;
 	  result = M1.Image(0, 0, 10*AU, theta, 0);
+	  //result = M1.Integrate(0, 0, 10*AU, theta, 0);
 	  Fout<<theta<<" "<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<endl;
 	}
-	/*
 	*/
 }
