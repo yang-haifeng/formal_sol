@@ -346,7 +346,7 @@ void SlabSphGrain::get_Orientation(double x, double y, double z, double &theta, 
 /////////////////////////////////////////////////////////////////////////////
 // HL Tau Model
 
-HLTau::HlTau(){
+HLTau::HLTau(){
 	r_max = 200*AU; Rc = 79*AU;
 	T0 = 30; H0 = 16.8 * AU;
 	rho0 = 1.964e-15;
@@ -356,14 +356,14 @@ HLTau::HlTau(){
 	lambda = 0.1;
 }
 
-double get_BnuT(double x, double y, double z){
+double HLTau::get_BnuT(double x, double y, double z){
 	double R = x*x+y*y;
-	return pow(R/Rc, -q) // Normalized to BnuT(T0) for now.
+	return pow(R/Rc, -q); // Normalized to BnuT(T0) for now.
 }
 
-double get_Rho(double x, double y, double z){
+double HLTau::get_Rho(double x, double y, double z){
 	double R = x*x + y*y;
-	double HR = H0*pow(R/Rc, 1.5-q/2)
+	double HR = H0*pow(R/Rc, 1.5-q/2);
 	return rho0 * pow(R/Rc, -p)
 		* exp(-pow(R/Rc, 3.5-p-q/2))
 		* exp(-z*z/HR/HR);
