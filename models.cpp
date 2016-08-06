@@ -25,7 +25,7 @@ double Model::get_Rho(double x, double y, double z){
 }
 
 void Model::get_Orientation(double x, double y, double z, double &theta, double &phi){
-	cout<<"Warning: get_Orientation method not implemented!"<<endl;
+	//cout<<"Warning: get_Orientation method not implemented!"<<endl;
 	theta = 0; phi=0;
 }
 
@@ -341,6 +341,32 @@ void SlabSphGrain::get_Orientation(double x, double y, double z, double &theta, 
 	theta = 0.; 
 	phi = 0.;
 	//phi = PI/Nphi;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// HL Tau Model
+
+HLTau::HlTau(){
+	r_max = 200*AU; Rc = 79*AU;
+	T0 = 30; H0 = 16.8 * AU;
+	rho0 = 1.964e-15;
+	p = 1.; q = 0.43;
+	Kext = 1.29; Kpol=Kcpol=0;
+	Ksca = 0.78;
+	lambda = 0.1;
+}
+
+double get_BnuT(double x, double y, double z){
+	double R = x*x+y*y;
+	return pow(R/Rc, -q) // Normalized to BnuT(T0) for now.
+}
+
+double get_Rho(double x, double y, double z){
+	double R = x*x + y*y;
+	double HR = H0*pow(R/Rc, 1.5-q/2)
+	return rho0 * pow(R/Rc, -p)
+		* exp(-pow(R/Rc, 3.5-p-q/2))
+		* exp(-z*z/HR/HR);
 }
 
 /////////////////////////////////////////////////////////////////////////////

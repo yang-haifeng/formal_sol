@@ -64,6 +64,16 @@ class SlabSphGrain : public SlabUniform{
 		void get_Orientation(double x, double y, double z, double &theta, double &phi);
 };
 
+class HLTau : public Model{
+	protected:
+		double Rc, T0, H0, p, q, rho0;
+	public:
+		HLTau();
+		double get_BnuT(double x, double y, double z);
+		double get_Rho(double x, double y, double z);
+		//bool reachBoundary(double x, double y, double z);
+};
+
 double BnuT(double T, double nu);
 
 #endif
