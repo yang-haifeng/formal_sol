@@ -114,9 +114,12 @@ int main(){
 	}
 	*/
 
+	//SlabSphGrain M1 = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
+	//cout<<M1.Image(0,0,10*AU,PI/4,0)<<endl;
+
 	// Let's generate a full image.
 	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
-	int Nx = 100, Ny = 100;
+	int Nx = 10, Ny = 10;
 	double theta = PI/4.;
 	double xmin = -50*AU, xmax = 50*AU;
 	double ymin = -50*AU, ymax = 50*AU;
@@ -125,7 +128,7 @@ int main(){
 	double x,y;
 	double deltaX = 10*AU * tan(theta);
 	ofstream Fout;
-	Fout.open("test/Rayleigh_inclDisk.txt");
+	Fout.open("test/RDisk10x10.txt");
 	Vector4d result;
 	Fout<<"#x\ty\tI\tQ\tU\tV"<<endl;
 	for (int i=0; i<Nx+1; i++){
@@ -137,6 +140,8 @@ int main(){
 	  	Fout<<x<<y<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 	}
 	}
+	/*
+	*/
 }
 
 
