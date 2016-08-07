@@ -118,6 +118,7 @@ int main(){
 	//cout<<M1.Image(0,0,10*AU,PI/4,0)<<endl;
 
 	// Let's generate a full image.
+	/*
 	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
 	int Nx = 10, Ny = 10;
 	double theta = PI/4.;
@@ -140,8 +141,11 @@ int main(){
 	  	Fout<<x<<y<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 	}
 	}
-	/*
 	*/
+
+	// Here's the HL Tau model
+	HLTau M = HLTau();
+	cout<<M.Image(10*AU,10*AU,100*AU,0,0)<<endl;
 }
 
 

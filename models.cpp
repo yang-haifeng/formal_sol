@@ -357,12 +357,14 @@ HLTau::HLTau(){
 }
 
 double HLTau::get_BnuT(double x, double y, double z){
-	double R = x*x+y*y;
+	double R = sqrt(x*x+y*y);
+	if (R<AU) return 0;
 	return pow(R/Rc, -q); // Normalized to BnuT(T0) for now.
 }
 
 double HLTau::get_Rho(double x, double y, double z){
-	double R = x*x + y*y;
+	double R = sqrt(x*x + y*y);
+	if (R<AU) return 0;
 	double HR = H0*pow(R/Rc, 1.5-q/2);
 	return rho0 * pow(R/Rc, -p)
 		* exp(-pow(R/Rc, 3.5-p-q/2))
