@@ -92,12 +92,13 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 	*/
 }
 
-Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n_phi, double step){
+Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n_phi, double step0){
 	Matrix4d T = Matrix4d(Vector4d::Constant(1).asDiagonal());
 	//double s = 0;
 	Vector4d result = Vector4d::Constant(0);
 	double rho, bnuT;
 	double xp=x, yp=y, zp=z;
+	double step=step0;
 	double dx = - step * sin(n_theta) * cos(n_phi);
 	double dy = - step * sin(n_theta) * sin(n_phi);
 	double dz = - step * cos(n_theta);
@@ -107,7 +108,19 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 		bnuT = get_BnuT(xp, yp, zp);
 
 		if (tau_ad>0){
+			if (rho != 0){
 			step = tau_ad / rho / Kext;
+			if (step>AU) step=AU;
+			dx = -step*sin(n_theta)*cos(n_phi);
+			dy = -step*sin(n_theta)*sin(n_phi);
+			dz = -step*cos(n_theta);
+			}
+			else{
+			step = AU;
+			dx = -step*sin(n_theta)*cos(n_phi);
+			dy = -step*sin(n_theta)*sin(n_phi);
+			dz = -step*cos(n_theta);
+			}
 		}
 
 		cal_VM(xp, yp, zp, n_theta, n_phi, Vabs, Mext);
@@ -120,11 +133,12 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 	return result;
 }
 
-Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi, double step){
+Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi, double step0){
 	Matrix4d T = Matrix4d(Vector4d::Constant(1).asDiagonal());
 	Vector4d result = Vector4d::Constant(0);
 	double rho, bnuT;
 	double xp=x, yp=y, zp=z;
+	double step = step0;
 	double dx = -step*sin(l_theta)*cos(l_phi);
 	double dy = -step*sin(l_theta)*sin(l_phi);
 	double dz = -step*cos(l_theta);
@@ -139,12 +153,24 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 	double theta2, phi2;
 	while (true){
 		//cout<<"***********************************************"<<endl;
-		//cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<endl;
+		//cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<"\t"<<step/AU<<endl;
 		rho = get_Rho(xp, yp, zp);
 		bnuT = get_BnuT(xp, yp, zp);
 
 		if (tau_ad>0){
+			if (rho != 0){
 			step = tau_ad / rho / Kext;
+			if (step>AU) step=AU;
+			dx = -step*sin(l_theta)*cos(l_phi);
+			dy = -step*sin(l_theta)*sin(l_phi);
+			dz = -step*cos(l_theta);
+			}
+			else{
+			step = AU;
+			dx = -step*sin(l_theta)*cos(l_phi);
+			dy = -step*sin(l_theta)*sin(l_phi);
+			dz = -step*cos(l_theta);
+			}
 		}
 
 		cal_VM(xp, yp, zp, l_theta, l_phi, Vabs, Mext);
@@ -189,7 +215,9 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 
 		T -= T*Mext * step * rho;
 		xp += dx; yp += dy; zp += dz;
-		if (reachBoundary(xp, yp, zp)) break;
+		if (reachBoundary(xp, yp, zp)) {
+		//cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<"\tBoundary reached"<<endl;
+		break;}
 	}
 	return result;
 }
@@ -379,6 +407,7 @@ double HLTau::get_Rho(double x, double y, double z){
 	double R = sqrt(x*x + y*y);
 	if (R<AU) return 0;
 	double HR = H0*pow(R/Rc, 1.5-q/2);
+	if (z>5*HR) return 0;
 	return rho0 * pow(R/Rc, -p)
 		* exp(-pow(R/Rc, 3.5-p-q/2))
 		* exp(-z*z/HR/HR);
