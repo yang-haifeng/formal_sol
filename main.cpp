@@ -145,8 +145,9 @@ int main(){
 
 	// Here's the HL Tau model
 	HLTau M = HLTau();
-	M.set_adaptive(0.01);
-	cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
+	//M.set_adaptive(0.01);
+	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
+	M.get_Image(0, 100, 100*AU, "test/out");
 }
 
 
