@@ -2,6 +2,7 @@
 #define _MODEL_H
 
 #include <iostream>
+#include <fstream>
 #include <math.h>
 #include "typedef.h"
 #include "Eigen/Dense"
@@ -25,10 +26,12 @@ class Model{
 		virtual double get_Rho(double x, double y, double z);
 		virtual void get_Orientation(double x, double y, double z, double &theta, double &phi);
 		virtual bool reachBoundary(double x, double y, double z);
+		bool reachBoundary(Vector3d P);
 		virtual Matrix4d get_ZMatrix(double theta_i, double phi_i, double theta_o, double phi_o);
 
 		Vector4d Integrate(double x, double y, double z, double n_theta, double n_phi, double step=0.1*AU);
 		Vector4d Image(double x, double y, double z, double l_theta, double l_phi, double step=0.1*AU);
+		void get_Image(double theta, double Npx, double FoV, string fName);
 		virtual void cal_VM(double x, double y, double z, double n_theta, double n_phi,
 				Vector4d &Vout, Matrix4d &Mout);
 

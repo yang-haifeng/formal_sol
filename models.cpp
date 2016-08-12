@@ -222,6 +222,34 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 	return result;
 }
 
+void Model::get_Image(double theta, double Npx, double FoV, string fName){
+	ofstream Fstream;
+	Fstream.open(fName.c_str());
+
+	// Assuming Npx is even. The center is usually a singularity and doesn't matter.
+	Vector3d de1, de2, de3;
+	de1 << cos(theta), 0, -sin(theta);
+	de2 << 0, 1, 0;
+	de3 << sin(theta), 0, cos(theta);
+	de1 *= FoV/(Npx-1);
+	de2 *= FoV/(Npx-1);
+	de3 *= AU;
+	Vector3d P0;
+	P0 << 0,0,0;
+	P0 -= de1 * (Npx/2-0.5);
+	P0 -= de2 * (Npx/2-0.5);
+	Vector3d P;
+	for (int i=0;i<Npx; i++){
+	for (int j=0;j<Npx; j++){
+	  P = P0 + de1 *i + de2*j;
+	  while (!reachBoundary(P+de3)){
+	  	P+=de3;
+	  }
+	  Fstream<<i<<"\t"<<j<<"\t"<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
+	}
+	}
+}
+
 void Model::test(){
 	//cout<<Vabs<<endl;
 	//cout<<Mext<<endl;
@@ -234,6 +262,10 @@ void Model::set_adaptive(double tau){
 bool Model::reachBoundary(double x, double y, double z){
 	if (x*x + y*y + z*z >= r_max*r_max) return true;
 	else return false;
+}
+
+bool Model::reachBoundary(Vector3d P){
+	return reachBoundary(P(0), P(1), P(2));
 }
 
 void Model::cal_VM(double x, double y, double z, double n_theta, double n_phi, 
