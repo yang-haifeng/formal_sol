@@ -239,13 +239,17 @@ void Model::get_Image(double theta, double Npx, double FoV, string fName){
 	P0 -= de1 * (Npx/2-0.5);
 	P0 -= de2 * (Npx/2-0.5);
 	Vector3d P;
+	Vector4d result;
 	for (int i=0;i<Npx; i++){
 	for (int j=0;j<Npx; j++){
+	  cout<<i<<"\t"<<j<<endl;
 	  P = P0 + de1 *i + de2*j;
 	  while (!reachBoundary(P+de3)){
 	  	P+=de3;
 	  }
-	  Fstream<<i<<"\t"<<j<<"\t"<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
+	  result = Image(P(0), P(1), P(2), theta, 0);
+	  //Fstream<<i<<"\t"<<j<<"\t"<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
+	  Fstream<<i<<"\t"<<j<<"\t"<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
 	}
 	}
 }
