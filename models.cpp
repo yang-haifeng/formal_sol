@@ -9,6 +9,7 @@ Model::Model(){
 	Kext=1; Kpol=0; Kcpol=0; 
 	lambda=0.1;
 	Ksca=0.1;
+	tau_ad = -1;
 	//los_phi=0; los_theta=0;
 	//Mext << Matrix4d(Vector4d::Constant(Kext).asDiagonal());
 	//Vabs << Kext, Kpol, 0, 0;
@@ -105,6 +106,10 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 		rho = get_Rho(xp, yp, zp);
 		bnuT = get_BnuT(xp, yp, zp);
 
+		if (tau_ad>0){
+			step = tau_ad / rho / Kext;
+		}
+
 		cal_VM(xp, yp, zp, n_theta, n_phi, Vabs, Mext);
 		result += T * Vabs * step*rho*bnuT;
 		T -= T * Mext * step*rho;
@@ -137,6 +142,10 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 		//cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<endl;
 		rho = get_Rho(xp, yp, zp);
 		bnuT = get_BnuT(xp, yp, zp);
+
+		if (tau_ad>0){
+			step = tau_ad / rho / Kext;
+		}
 
 		cal_VM(xp, yp, zp, l_theta, l_phi, Vabs, Mext);
 
@@ -188,6 +197,10 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 void Model::test(){
 	//cout<<Vabs<<endl;
 	//cout<<Mext<<endl;
+}
+
+void Model::set_adaptive(double tau){
+	tau_ad = tau;
 }
 
 bool Model::reachBoundary(double x, double y, double z){

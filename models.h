@@ -15,6 +15,7 @@ class Model{
 		double Kext, Kpol, Kcpol; 
 		double Ksca;
 		double lambda; 
+		double tau_ad;
 		//double los_theta, los_phi;
 		//Matrix4d Mext;
 		//Vector4d Vabs;
@@ -32,6 +33,7 @@ class Model{
 				Vector4d &Vout, Matrix4d &Mout);
 
 		virtual void test();
+		void set_adaptive(double tau);
 };
 
 class SlabUniform : public Model{
