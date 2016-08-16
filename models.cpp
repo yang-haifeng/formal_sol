@@ -433,6 +433,14 @@ HLTau::HLTau(){
 	lambda = 0.1;
 }
 
+void HLTau::set_rho0(double rho){
+	rho0 = rho;
+}
+
+void HLTau::double_rho0(){
+	rho0 *= 2;
+}
+
 double HLTau::get_BnuT(double x, double y, double z){
 	double R = sqrt(x*x+y*y);
 	if (R<AU) return 0;

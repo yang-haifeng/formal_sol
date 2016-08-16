@@ -77,6 +77,8 @@ class HLTau : public Model{
 		double get_BnuT(double x, double y, double z);
 		double get_Rho(double x, double y, double z);
 		//bool reachBoundary(double x, double y, double z);
+		void set_rho0(double rho);
+		void double_rho0();
 };
 
 double BnuT(double T, double nu);

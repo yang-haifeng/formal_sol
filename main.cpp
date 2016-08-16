@@ -145,9 +145,10 @@ int main(){
 
 	// Here's the HL Tau model
 	HLTau M = HLTau();
+	M.double_rho0();
 	M.set_adaptive(0.01);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
-	M.get_Image(PI/4, 100, 100*AU, "test/45.out");
+	M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
 }
 
 
