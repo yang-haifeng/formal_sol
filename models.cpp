@@ -461,7 +461,7 @@ double HLTau::get_Rho(double x, double y, double z){
 		* exp(-z*z/HR/HR);
 }
 
-double HLTau::reach_Boundary(double x, double y, double z){
+bool HLTau::reachBoundary(double x, double y, double z){
 	if (x*x + y*y + z*z >= r_max*r_max) return true;
 	double R = sqrt(x*x+y*y);
 	double HR = H0*pow(R/Rc, 1.5-q/2);

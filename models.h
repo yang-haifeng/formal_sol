@@ -73,10 +73,11 @@ class HLTau : public Model{
 	protected:
 		double Rc, T0, H0, p, q, rho0;
 	public:
+		using Model::reachBoundary;
 		HLTau();
 		double get_BnuT(double x, double y, double z);
 		double get_Rho(double x, double y, double z);
-		//bool reachBoundary(double x, double y, double z);
+		bool reachBoundary(double x, double y, double z);
 		void set_rho0(double rho);
 		void double_rho0();
 };
