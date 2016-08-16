@@ -244,8 +244,12 @@ void Model::get_Image(double theta, int Npx, double FoV, string fName){
 	for (int j=0;j<Npx; j++){
 	  cout<<i<<"\t"<<j<<endl;
 	  P = P0 + de1 *i + de2*j;
-	  while (!reachBoundary(P+de3)){
-	  	P+=de3;
+	  if (!reachBoundary(P)){
+	  	while (!reachBoundary(P+de3))P+=de3;
+	  }
+	  else{
+		P-=de3;
+	  	while (reachBoundary(P-de3))P-=de3;
 	  }
 	  result = Image(P(0), P(1), P(2), theta, 0);
 	  //Fstream<<i<<"\t"<<j<<"\t"<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
@@ -451,10 +455,18 @@ double HLTau::get_Rho(double x, double y, double z){
 	double R = sqrt(x*x + y*y);
 	if (R<AU) return 0;
 	double HR = H0*pow(R/Rc, 1.5-q/2);
-	if (z>5*HR) return 0;
+	if (z>3*HR) return 0;
 	return rho0 * pow(R/Rc, -p)
 		* exp(-pow(R/Rc, 3.5-p-q/2))
 		* exp(-z*z/HR/HR);
+}
+
+double HLTau::reach_Boundary(double x, double y, double z){
+	if (x*x + y*y + z*z >= r_max*r_max) return true;
+	double R = sqrt(x*x+y*y);
+	double HR = H0*pow(R/Rc, 1.5-q/2);
+	if (z>3*HR) return true;
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////
