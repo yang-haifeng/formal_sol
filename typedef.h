@@ -8,8 +8,8 @@ using namespace std;
 
 #define PI 3.1415926
 
-#define Ntheta 10
-#define Nphi 10
+#define Ntheta 16
+#define Nphi 16
 
 //typedef double (*fptr)(double);
 
