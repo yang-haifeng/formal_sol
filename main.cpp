@@ -144,13 +144,45 @@ int main(){
 	*/
 
 	// Here's the HL Tau model
+	/*
 	HLTau M = HLTau();
 	M.double_rho0();
 	M.set_adaptive(0.01);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
 	M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
+	*/
+
+	HLTau M = HLTau();
+	//M.set_adaptive(0.01);
+	double theta = PI/4;
+	int Npx = 30;
+	double FoV = 200*AU;
+        Vector3d de1, de2, de3;
+        de1 << cos(theta), 0, -sin(theta);
+        de2 << 0, 1, 0;
+        de3 << sin(theta), 0, cos(theta);
+        de1 *= FoV/(Npx-1);
+        de2 *= FoV/(Npx-1);
+        de3 *= AU; 
+        Vector3d P0; 
+        P0 << 0,0,0;
+        P0 -= de1 * (Npx/2-0.5);
+        P0 -= de2 * (Npx/2-0.5);
+        Vector3d P;
+        Vector4d result;
+        //for (int i=0;i<Npx; i++){
+        //for (int j=0;j<Npx; j++){
+	int i=15, j=28;
+          cout<<i<<"\t"<<j<<endl;
+          P = P0 + de1 *i + de2*j;
+          cout<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
+          while (!M.reachBoundary(P+de3)){
+                P+=de3;
+          }
+          cout<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
+          result = M.Image(P(0), P(1), P(2), theta, 0); 
+          cout<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
+        //}
+        //}
+
 }
-
-
-
-
