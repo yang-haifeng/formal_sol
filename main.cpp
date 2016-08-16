@@ -153,7 +153,7 @@ int main(){
 	*/
 
 	HLTau M = HLTau();
-	//M.set_adaptive(0.01);
+	M.set_adaptive(0.005);
 	double theta = PI/4;
 	int Npx = 30;
 	double FoV = 200*AU;
@@ -184,5 +184,7 @@ int main(){
           cout<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
         //}
         //}
+	/*
+	*/
 
 }
