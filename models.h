@@ -31,7 +31,7 @@ class Model{
 
 		Vector4d Integrate(double x, double y, double z, double n_theta, double n_phi, double step=0.1*AU);
 		Vector4d Image(double x, double y, double z, double l_theta, double l_phi, double step=0.1*AU);
-		void get_Image(double theta, double Npx, double FoV, string fName);
+		void get_Image(double theta, int Npx, double FoV, string fName);
 		virtual void cal_VM(double x, double y, double z, double n_theta, double n_phi,
 				Vector4d &Vout, Matrix4d &Mout);
 

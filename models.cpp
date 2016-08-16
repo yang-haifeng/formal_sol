@@ -222,7 +222,7 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 	return result;
 }
 
-void Model::get_Image(double theta, double Npx, double FoV, string fName){
+void Model::get_Image(double theta, int Npx, double FoV, string fName){
 	ofstream Fstream;
 	Fstream.open(fName.c_str());
 
