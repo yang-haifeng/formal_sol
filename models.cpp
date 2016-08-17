@@ -153,7 +153,7 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 	double theta2, phi2;
 	while (true){
 		//cout<<"***********************************************"<<endl;
-		cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<"\t"<<step/AU<<endl;
+		//cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<"\t"<<step/AU<<endl;
 		rho = get_Rho(xp, yp, zp);
 		bnuT = get_BnuT(xp, yp, zp);
 
