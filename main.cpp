@@ -119,11 +119,11 @@ int main(){
 
 	// Let's generate a full image.
 	/*
-	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
+	SlabSphGrain M = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
 	int Nx = 10, Ny = 10;
 	double theta = PI/4.;
-	double xmin = -50*AU, xmax = 50*AU;
-	double ymin = -50*AU, ymax = 50*AU;
+	double xmin = -100*AU, xmax = 100*AU;
+	double ymin = -100*AU, ymax = 100*AU;
 	double dx = (xmax-xmin)/Nx;
 	double dy = (ymax-ymin)/Ny;
 	double x,y;
@@ -138,9 +138,35 @@ int main(){
 		x = xmin + i*dx + deltaX;
 		y = ymin + j*dy;
 		result = M.Image(x, y, 10*AU, PI/4., 0.);
-	  	Fout<<x<<y<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+	  	Fout<<x/AU<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 	}
 	}
+	*/
+
+	// This is test for the weird angle problem.
+	SlabSphGrain M = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
+	double y, theta;
+	ofstream Fout;
+	Fout.open("test/RDisk_diffPhi.txt");
+	Vector4d result;
+	Fout<<"#theta\ty\tI\tQ\tU\tV"<<endl;
+
+	y = 100*AU; theta = PI/4;
+	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+
+	y =  50*AU; theta = PI/4;
+	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+
+	y = 100*AU; theta = PI/6;
+	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+
+	y =  50*AU; theta = PI/6;
+	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+	/*
 	*/
 
 	// Here's the HL Tau model
@@ -152,6 +178,7 @@ int main(){
 	M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
 	*/
 
+	/*
 	HLTau M = HLTau();
 	M.set_adaptive(0.005);
 	double theta = PI/4;
@@ -184,7 +211,6 @@ int main(){
           cout<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
         //}
         //}
-	/*
 	*/
 
 }
