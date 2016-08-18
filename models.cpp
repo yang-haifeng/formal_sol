@@ -258,6 +258,32 @@ void Model::get_Image(double theta, int Npx, double FoV, string fName){
 	}
 }
 
+void Model::get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName){
+	ofstream Fstream;
+	Fstream.open(fName.c_str());
+
+	// Assuming Npx is even. The center is usually a singularity and doesn't matter.
+	Vector3d e;
+	e << sin(theta), 0, cos(theta);
+	e *= AU;
+	Vector3d P;
+	Vector4d result;
+	double R; double phi;
+	Fstream<<"#R(AU)\tphi(rad)\tI\tQ\tU\tV"<<endl;
+	for (int i=0;i<Nr; i++){
+	R = Rin * exp( log(Rout/Rin) * i/(Nr-1) );
+	for (int j=0;j<Nph; j++){
+	  phi = 2*PI*j/Nph;
+	  cout<<i<<"\t"<<j<<"\t"<<R/AU<<"\t"<<phi/PI*180<<endl;
+	  P << R*cos(phi), R*sin(phi), 0;
+	  while (!reachBoundary(P+e)) P+=e;
+	  result = Image(P(0), P(1), P(2), theta, 0);
+	  //Fstream<<i<<"\t"<<j<<"\t"<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
+	  Fstream<<R/AU<<"\t"<<phi<<"\t"<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
+	}
+	}
+}
+
 void Model::test(){
 	//cout<<Vabs<<endl;
 	//cout<<Mext<<endl;
