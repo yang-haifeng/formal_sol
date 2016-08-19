@@ -144,38 +144,39 @@ int main(){
 	*/
 
 	// This is test for the weird angle problem.
-	SlabSphGrain M = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
+	/*
+	SlabSphGrain M = SlabSphGrain(30, 2e-16, 5*AU, 200*AU);
 	double y, theta;
 	ofstream Fout;
-	Fout.open("test/RDisk_diffPhi.txt");
+	Fout.open("test/RDisk_thinner.txt");
 	Vector4d result;
 	Fout<<"#theta\ty\tI\tQ\tU\tV"<<endl;
 
 	y = 100*AU; theta = PI/4;
-	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	result = M.Image(y, 0, 5*AU, theta, PI/2.);
 	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 
 	y =  50*AU; theta = PI/4;
-	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	result = M.Image(y, 0, 5*AU, theta, PI/2.);
 	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 
 	y = 100*AU; theta = PI/6;
-	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	result = M.Image(y, 0, 5*AU, theta, PI/2.);
 	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 
 	y =  50*AU; theta = PI/6;
-	result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	result = M.Image(y, 0, 5*AU, theta, PI/2.);
 	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
-	/*
 	*/
 
 	// Here's the HL Tau model
 	/*
 	HLTau M = HLTau();
-	M.double_rho0();
-	M.set_adaptive(0.01);
+	//M.double_rho0();
+	M.set_adaptive(0.1);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
-	M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
+	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
+	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/45degree_circle15x16.out");
 	*/
 
 	/*
@@ -212,5 +213,14 @@ int main(){
         //}
         //}
 	*/
+
+	// Some test for the ZMatrix
+	Model M = Model();
+	Matrix4d Z;
+	for (int i=0; i<360; i++)
+	{
+		Z = M.get_ZMatrix(PI/2, 0, PI/2, i/180.*PI);
+		cout<<i<<"\t"<<Z(0,0)<<"\t"<<Z(0,1)<<"\t"<<Z(0,2)<<"\t"<<Z(1,0)<<"\t"<<Z(1,1)<<"\t"<<Z(1,2)<<"\t"<<Z(2,0)<<"\t"<<Z(2,1)<<"\t"<<Z(2,2)<<"\t"<<Z(3,3)<<endl;
+	}
 
 }
