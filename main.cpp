@@ -118,8 +118,7 @@ int main(){
 	//cout<<M1.Image(0,0,10*AU,PI/4,0)<<endl;
 
 	// Let's generate a full image.
-	/*
-	SlabSphGrain M = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
+	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
 	int Nx = 10, Ny = 10;
 	double theta = PI/4.;
 	double xmin = -100*AU, xmax = 100*AU;
@@ -129,7 +128,7 @@ int main(){
 	double x,y;
 	double deltaX = 10*AU * tan(theta);
 	ofstream Fout;
-	Fout.open("test/RDisk10x10.txt");
+	Fout.open("test/RDisk10x10_0degree.txt");
 	Vector4d result;
 	Fout<<"#x\ty\tI\tQ\tU\tV"<<endl;
 	for (int i=0; i<Nx+1; i++){
@@ -137,23 +136,26 @@ int main(){
 		cout<<"Working on: "<<i<<", "<<j<<endl;
 		x = xmin + i*dx + deltaX;
 		y = ymin + j*dy;
-		result = M.Image(x, y, 10*AU, PI/4., 0.);
+		result = M.Image(x, y, 10*AU, 0., 0.);
 	  	Fout<<x/AU<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 	}
 	}
+	/*
 	*/
 
 	// This is test for the weird angle problem.
-	SlabSphGrain M = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
+	/*
+	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
 	double y, theta;
 	ofstream Fout;
 	Fout.open("test/RDisk_diffPhi.txt");
 	Vector4d result;
 	Fout<<"#theta\ty\tI\tQ\tU\tV"<<endl;
 
-	y = 100*AU; theta = PI/4;
-	result = M.Image(y, 0, 10*AU, theta, PI/2.);
-	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
+	y = 100*AU; theta = PI/6;
+	//result = M.Image(y, 0, 10*AU, theta, PI/2.);
+	result = M.Image(0, y, 10*AU, theta, 0.);
+	cout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 
 	y =  50*AU; theta = PI/4;
 	result = M.Image(y, 0, 10*AU, theta, PI/2.);
@@ -166,7 +168,6 @@ int main(){
 	y =  50*AU; theta = PI/6;
 	result = M.Image(y, 0, 10*AU, theta, PI/2.);
 	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
-	/*
 	*/
 
 	// Here's the HL Tau model
