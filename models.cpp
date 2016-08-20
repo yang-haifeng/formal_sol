@@ -30,6 +30,7 @@ void Model::get_Orientation(double x, double y, double z, double &theta, double 
 	theta = 0; phi=0;
 }
 
+/*
 Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double phi_o){
 	//double dphi = phi_o-phi_i;
 	Vector3d et1, ep1, et2, ep2;
@@ -75,21 +76,61 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 	M*=factor;
 	return M;
 
-	/*
-	double cosTheta = sin(theta_i) * sin(theta_o) * cos(dphi) + cos(theta_i) * cos(theta_o);
-	Matrix4d M0;
-	double cosTheta2 = cosTheta*cosTheta;
-	M0 << factor * (1+cosTheta2), -factor * (1-cosTheta2), 0, 0,
-	   -factor * (1-cosTheta2), factor * (1+cosTheta2), 0, 0,
-	   0, 0, 2*cosTheta, 0,
-	   0, 0, 0, 2*cosTheta;
+	//double cosTheta = sin(theta_i) * sin(theta_o) * cos(dphi) + cos(theta_i) * cos(theta_o);
+	//Matrix4d M0;
+	//double cosTheta2 = cosTheta*cosTheta;
+	//M0 << factor * (1+cosTheta2), -factor * (1-cosTheta2), 0, 0,
+	//   -factor * (1-cosTheta2), factor * (1+cosTheta2), 0, 0,
+	//   0, 0, 2*cosTheta, 0,
+	//   0, 0, 0, 2*cosTheta;
 
-	double cosi1 = -sin(theta_o)*cos(theta_i) * cos(dphi) + sin(theta_i)*cos(theta_o);
-	double cosi2 = -sin(theta_i)*cos(theta_o) * cos(dphi) + sin(theta_o)*cos(theta_i);
-	double i1 = acos(cosi1);
-	double i2 = acos(cosi2);
-	return rotation_Matrix(-i2)*M0*rotation_Matrix(i1);
-	*/
+	//double cosi1 = -sin(theta_o)*cos(theta_i) * cos(dphi) + sin(theta_i)*cos(theta_o);
+	//double cosi2 = -sin(theta_i)*cos(theta_o) * cos(dphi) + sin(theta_o)*cos(theta_i);
+	//double i1 = acos(cosi1);
+	//double i2 = acos(cosi2);
+	//return rotation_Matrix(-i2)*M0*rotation_Matrix(i1);
+}
+*/
+
+Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double phi_o){
+	Vector3d er1, et1, ep1, er2, et2, ep2;
+	er1 << sin(theta_i) * cos(phi_i), sin(theta_i) * sin(phi_i), cos(theta_i);
+	et1 << cos(theta_i) * cos(phi_i), cos(theta_i) * sin(phi_i), -sin(theta_i);
+	ep1 << -sin(phi_i), cos(phi_i), 0;
+	er2 << sin(theta_o) * cos(phi_o), sin(theta_o) * sin(phi_o), cos(theta_o);
+	et2 << cos(theta_o) * cos(phi_o), cos(theta_o) * sin(phi_o), -sin(theta_o);
+	ep2 << -sin(phi_o), cos(phi_o), 0;
+
+	double Z11, Z12, Z13, Z14;
+	double Z21, Z22, Z23, Z24;
+	double Z31, Z32, Z33, Z34;
+	double Z41, Z42, Z43, Z44;
+
+	Z11 = 0.5*( 1 + pow( er1.transpose()*er2, 2) );
+	Z12 = 0.5*( pow( er2.transpose()*ep1, 2) - pow( er2.transpose()*et1, 2) );
+	Z13 = - (er2.transpose()*ep1) * (er2.transpose()*et1);
+	Z14 = 0.;
+	Z21 = 0.5*( pow( er1.transpose()*ep2 ,2) - pow( er1.transpose()*et2 ,2) );
+	Z22 = 0.5*( pow( et2.transpose()*et1, 2) + pow( ep2.transpose()*ep1, 2) - pow( et2.transpose()*ep1, 2) - pow( ep2.transpose()*et1, 2));
+	Z23 = double(et2.transpose()*ep1) * double(et2.transpose()*et1) - double(ep2.transpose()*ep1)*double(ep2.transpose()*et1);
+	Z24 = 0.;
+	Z31 = - (er1.transpose()*ep2)*(er1.transpose()*et2);
+	Z32 = double(ep2.transpose()*et1) * double(et2.transpose()*et1) - double(ep2.transpose()*ep1)*double(et2.transpose()*ep1);
+	Z33 = double(ep2.transpose()*ep1) * double(et2.transpose()*et1) + double(ep2.transpose()*et1)*double(et2.transpose()*ep1);
+	Z34 = 0.;
+	Z41 = 0.;
+	Z42 = 0.;
+	Z43 = 0.;
+	Z44 = double(ep2.transpose()*ep1)*double(et2.transpose()*et1) - double(et2.transpose()*ep1) * double(ep2.transpose()*et1);
+
+	double factor = 3./8./PI * Ksca;
+	Matrix4d M;
+	M <<    Z11, Z12, Z13, Z14,
+		Z21, Z22, Z23, Z24,
+		Z31, Z32, Z33, Z34,
+		Z41, Z42, Z43, Z44;
+	M*=factor;
+	return M;
 }
 
 Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n_phi, double step0){
