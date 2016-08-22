@@ -171,13 +171,13 @@ int main(){
 
 	// Here's the HL Tau model
 	/*
-	*/
 	HLTau M = HLTau();
 	M.double_rho0();
 	M.set_adaptive(0.1);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
 	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
 	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/HLTau_45d_doublerho0.out");
+	*/
 
 	/*
 	HLTau M = HLTau();
@@ -215,6 +215,7 @@ int main(){
 	*/
 
 	// Some test for the ZMatrix
+	// This is the case for xOy plane scattering
 	/*
 	Model M = Model();
 	Matrix4d Z;
@@ -224,5 +225,13 @@ int main(){
 		cout<<i<<"\t"<<Z(0,0)<<"\t"<<Z(0,1)<<"\t"<<Z(0,2)<<"\t"<<Z(1,0)<<"\t"<<Z(1,1)<<"\t"<<Z(1,2)<<"\t"<<Z(2,0)<<"\t"<<Z(2,1)<<"\t"<<Z(2,2)<<"\t"<<Z(3,3)<<endl;
 	}
 	*/
+	// Inclined disk planar scattering
+	Model M = Model();
+	Matrix4d Z;
+	for (int i=0; i<360; i++)
+	{
+		Z = M.get_ZMatrix(PI/2, i/180.*PI, PI/4, 0);
+		cout<<i<<"\t"<<Z(0,0)<<"\t"<<Z(0,1)<<"\t"<<Z(0,2)<<"\t"<<Z(1,0)<<"\t"<<Z(1,1)<<"\t"<<Z(1,2)<<"\t"<<Z(2,0)<<"\t"<<Z(2,1)<<"\t"<<Z(2,2)<<"\t"<<Z(3,3)<<endl;
+	}
 
 }
