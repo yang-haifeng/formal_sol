@@ -129,7 +129,7 @@ int main(){
 	double x,y;
 	double deltaX = 10*AU * tan(theta);
 	ofstream Fout;
-	Fout.open("test/RDisk10x10_0degree.txt");
+	Fout.open("test/Slab45d.txt");
 	Vector4d result;
 	Fout<<"#x\ty\tI\tQ\tU\tV"<<endl;
 	for (int i=0; i<Nx+1; i++){
@@ -137,7 +137,7 @@ int main(){
 		cout<<"Working on: "<<i<<", "<<j<<endl;
 		x = xmin + i*dx + deltaX;
 		y = ymin + j*dy;
-		result = M.Image(x, y, 10*AU, 0., 0.);
+		result = M.Image(x, y, 10*AU, PI/4, 0.);
 	  	Fout<<x/AU<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 	}
 	}
@@ -170,15 +170,27 @@ int main(){
 	*/
 
 	// Here's the HL Tau model
-	/*
 	HLTau M = HLTau();
-	M.double_rho0();
+	//M.multiply_rho0();
+	M.multiply_rho0(100);
 	M.set_adaptive(0.1);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
 	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
-	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/HLTau_45d_doublerho0.out");
+	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/HLTau_45d_100xrho0.out");
+	/*
 	*/
 
+	// Generating Density plotting here.
+	/*
+	HLTau M = HLTau();
+	ofstream FHR;
+	FHR.open("test/HLTau_HR.out");
+	for (int i=0; i<200; i++){
+		FHR<<i<<"\t"<<M.get_HR(i*AU)/AU<<endl;
+	}
+	*/
+
+	// This doesn't seems to be useful anymore.
 	/*
 	HLTau M = HLTau();
 	M.set_adaptive(0.005);
@@ -226,6 +238,7 @@ int main(){
 	}
 	*/
 	// Inclined disk planar scattering
+	/*
 	Model M = Model();
 	Matrix4d Z;
 	for (int i=0; i<360; i++)
@@ -233,5 +246,6 @@ int main(){
 		Z = M.get_ZMatrix(PI/2, i/180.*PI, PI/4, 0);
 		cout<<i<<"\t"<<Z(0,0)<<"\t"<<Z(0,1)<<"\t"<<Z(0,2)<<"\t"<<Z(1,0)<<"\t"<<Z(1,1)<<"\t"<<Z(1,2)<<"\t"<<Z(2,0)<<"\t"<<Z(2,1)<<"\t"<<Z(2,2)<<"\t"<<Z(3,3)<<endl;
 	}
+	*/
 
 }
