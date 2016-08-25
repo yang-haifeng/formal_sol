@@ -30,7 +30,6 @@ void Model::get_Orientation(double x, double y, double z, double &theta, double 
 	theta = 0; phi=0;
 }
 
-/*
 Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double phi_o){
 	//double dphi = phi_o-phi_i;
 	Vector3d et1, ep1, et2, ep2;
@@ -41,10 +40,10 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 
 	double factor = 3./8./PI * Ksca;
 	double ftt, ftp, fpt, fpp;
-	ftt = et1.transpose() * et2;
-	ftp = et1.transpose() * ep2;
-	fpt = ep1.transpose() * et2;
-	fpp = ep1.transpose() * ep2;
+	ftt = et2.transpose() * et1;
+	ftp = et2.transpose() * ep1;
+	fpt = ep2.transpose() * et1;
+	fpp = ep2.transpose() * ep1;
 
 	double Z11, Z12, Z13, Z14;
 	double Z21, Z22, Z23, Z24;
@@ -52,10 +51,10 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 	double Z41, Z42, Z43, Z44;
 
 	Z11 = 0.5 * (ftt*ftt + ftp*ftp + fpt*fpt + fpp*fpp);
-	Z12 = 0.5 * (ftt*ftt + ftp*ftp - fpt*fpt - fpp*fpp);
+	Z12 = 0.5 * (ftt*ftt - ftp*ftp + fpt*fpt - fpp*fpp);
 	Z13 = ftt*ftp + fpp*fpt;
 	Z14 = 0.;
-	Z21 = 0.5 * (ftt*ftt - ftp*ftp + fpt*fpt - fpp*fpp);
+	Z21 = 0.5 * (ftt*ftt + ftp*ftp - fpt*fpt - fpp*fpp);
 	Z22 = 0.5 * (ftt*ftt - ftp*ftp - fpt*fpt + fpp*fpp);
 	Z23 = ftt*ftp - fpp*fpt;
 	Z24 = 0.;
@@ -90,8 +89,8 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 	//double i2 = acos(cosi2);
 	//return rotation_Matrix(-i2)*M0*rotation_Matrix(i1);
 }
-*/
 
+/*
 Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double phi_o){
 	Vector3d er1, et1, ep1, er2, et2, ep2;
 	er1 << sin(theta_i) * cos(phi_i), sin(theta_i) * sin(phi_i), cos(theta_i);
@@ -132,6 +131,7 @@ Matrix4d Model::get_ZMatrix(double theta_i, double phi_i, double theta_o, double
 	M*=factor;
 	return M;
 }
+*/
 
 Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n_phi, double step0){
 	Matrix4d T = Matrix4d(Vector4d::Constant(1).asDiagonal());
@@ -508,8 +508,8 @@ void HLTau::set_rho0(double rho){
 	rho0 = rho;
 }
 
-void HLTau::double_rho0(){
-	rho0 *= 2;
+void HLTau::multiply_rho0(double ratio){
+	rho0 *= ratio;
 }
 
 double HLTau::get_BnuT(double x, double y, double z){
@@ -534,6 +534,10 @@ bool HLTau::reachBoundary(double x, double y, double z){
 	double HR = H0*pow(R/Rc, 1.5-q/2);
 	if (z>3*HR) return true;
 	return false;
+}
+
+double HLTau::get_HR(double R){
+	return H0*pow(R/Rc, 1.5-q/2);
 }
 
 /////////////////////////////////////////////////////////////////////////////
