@@ -502,6 +502,7 @@ HLTau::HLTau(){
 	Kext = 1.29; Kpol=Kcpol=0;
 	Ksca = 0.78;
 	lambda = 0.1;
+	tau_ad = -1;
 }
 
 void HLTau::set_rho0(double rho){
@@ -538,6 +539,42 @@ bool HLTau::reachBoundary(double x, double y, double z){
 
 double HLTau::get_HR(double R){
 	return H0*pow(R/Rc, 1.5-q/2);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// ConeModel Methods. A disk with constant flaring angle.
+
+ConeModel::ConeModel(double theta, double rho){
+	// Generic parameters
+	r_max = 200*AU; 
+	Kext = 1.; Kpol=Kcpol=0; Ksca = 0.5;
+	lambda = 0.1;
+	tau_ad = -1;
+
+	// Model specific parameters
+	theta_cone = theta;
+	rho0 = rho;
+}
+
+double ConeModel::get_BnuT(double x, double y, double z){
+	return 1.; // Isothermal model with Bnu(T0) as units of intensity.
+}
+
+double ConeModel::get_Rho(double x, double y, double z){
+	return rho0; // Constant density.
+	// No need for hole here since density is not blowing up near the center.
+}
+
+bool ConeModel::reachBoundary(double x, double y, double z){
+	double R;
+	R = sqrt(x*x+y*y);
+	if (R>r_max)
+		return true;
+	double theta;
+	theta = atan(fabs(z)/R);
+	if (theta>theta_cone)
+		return true;
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -45,6 +45,7 @@ class SlabUniform : public Model{
 		double Bnu0, rho0;
 		double h; 
 	public:
+		using Model::reachBoundary;
 		SlabUniform();
 		SlabUniform(double Temp, double rho, double height, double rm);
 		double get_BnuT(double x, double y, double z);
@@ -82,6 +83,18 @@ class HLTau : public Model{
 		void set_rho0(double rho);
 		void multiply_rho0(double ratio=2);
 		double get_HR(double R);
+};
+
+class ConeModel : public Model{
+	protected:
+		double theta_cone;
+		double rho0;
+	public:
+		using Model::reachBoundary;
+		ConeModel(double theta, double rho);
+		double get_BnuT(double x, double y, double z);
+		double get_Rho(double x, double y, double z);
+		bool reachBoundary(double x, double y, double z);
 };
 
 double BnuT(double T, double nu);
