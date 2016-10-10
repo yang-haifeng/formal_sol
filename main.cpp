@@ -170,15 +170,15 @@ int main(){
 	*/
 
 	// Here's the HL Tau model
+	/*
+	*/
 	HLTau M = HLTau();
 	//M.multiply_rho0();
-	M.multiply_rho0(100);
+	M.multiply_rho0(10);
 	M.set_adaptive(0.1);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
 	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
-	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/HLTau_45d_100xrho0.out");
-	/*
-	*/
+	M.get_Circle_Image(PI/3., 15, 16, 10*AU, 150*AU, "test/HLTau_60d_10xrho0.out");
 
 	// Generating Density plotting here.
 	/*
@@ -248,4 +248,28 @@ int main(){
 	}
 	*/
 
+	// Let's do some ConeModel.
+	// Start with reachBoundary test and density, temperature.
+	/*
+	double x, z;
+	ConeModel M = ConeModel(PI/4, 1e-15);
+	for (int i=0; i<101; i++){
+	for (int j=0; j<101; j++){
+		x = (-200+4*i)*AU;
+		z = (-200+4*j)*AU;
+		if (!M.reachBoundary(x, 0., z)){
+			cout<<x/AU<<"\t"<<z/AU<<"\t"<<M.get_BnuT(x, 0., z)<<"\t"<<M.get_Rho(x, 0., z)<<endl;
+		}
+	}
+	}
+	*/
+	// Now onto some business.
+	/*
+	ConeModel M = ConeModel(PI/6, 1e-14);
+	M.set_adaptive(0.1); // This might be too big of an adaptive. 
+	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/C10x_45d.out");
+	*/
 }
+
+
+
