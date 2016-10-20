@@ -541,6 +541,10 @@ double HLTau::get_HR(double R){
 	return H0*pow(R/Rc, 1.5-q/2);
 }
 
+void HLTau::set_kappa(double kext, double ksca){
+	Kext=kext; Ksca=ksca;
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // ConeModel Methods. A disk with constant flaring angle.
 

@@ -83,6 +83,7 @@ class HLTau : public Model{
 		void set_rho0(double rho);
 		void multiply_rho0(double ratio=2);
 		double get_HR(double R);
+		void set_kappa(double kext, double ksca);
 };
 
 class ConeModel : public Model{
