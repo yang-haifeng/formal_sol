@@ -497,8 +497,9 @@ void SlabSphGrain::get_Orientation(double x, double y, double z, double &theta, 
 HLTau::HLTau(){
 	r_max = 200*AU; Rc = 79*AU;
 	T0 = 30; H0 = 16.8 * AU;
-	rho0 = 1.964e-15;
-	p = 1.; q = 0.43;
+	//rho0 = 1.964e-15;
+	rho0 = 4.7166961619e-15; // New number from problem_setup.py. Need to find why there was a difference.
+	p = 1.064; q = 0.43;
 	Kext = 1.29; Kpol=Kcpol=0;
 	Ksca = 0.78;
 	lambda = 0.1;
@@ -514,9 +515,16 @@ void HLTau::multiply_rho0(double ratio){
 }
 
 double HLTau::get_BnuT(double x, double y, double z){
+	double Ts0 = 400.; double rs0=3.*AU; double R0 = 10.*AU;
 	double R = sqrt(x*x+y*y);
 	if (R<AU) return 0;
-	return pow(R/Rc, -q); // Normalized to BnuT(T0) for now.
+	double r = sqrt(x*x+y*y+z*z);
+	double HR = H0*pow(R/Rc, 1.5-q/2);
+	double W = exp(-pow(z/3/HR, 2));
+	double Td = W*T0*pow(R0/R, q) + (1-W)*Ts0*pow(rs0/r, q);
+	return BnuT(Td, con_c/lambda);
+	// Below is previous implementation.
+	//return pow(R/Rc, -q); // Normalized to BnuT(T0) for now.
 }
 
 double HLTau::get_Rho(double x, double y, double z){
@@ -531,9 +539,9 @@ double HLTau::get_Rho(double x, double y, double z){
 
 bool HLTau::reachBoundary(double x, double y, double z){
 	if (x*x + y*y + z*z >= r_max*r_max) return true;
-	double R = sqrt(x*x+y*y);
-	double HR = H0*pow(R/Rc, 1.5-q/2);
-	if (z>3*HR) return true;
+	//double R = sqrt(x*x+y*y);
+	//double HR = H0*pow(R/Rc, 1.5-q/2);
+	//if (z>3*HR) return true;
 	return false;
 }
 
