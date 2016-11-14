@@ -170,15 +170,17 @@ int main(){
 	*/
 
 	// Here's the HL Tau model
-	/*
-	*/
 	HLTau M = HLTau();
+	M.set_kappa(0.3899+0.418e-2, 0.4178e-2);
+	M.set_adaptive(0.01);
+	cout<<M.Image(10*AU,0,0,0.,0)<<endl;
+	/*
 	//M.multiply_rho0();
 	M.multiply_rho0(10);
-	M.set_adaptive(0.1);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
 	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
 	M.get_Circle_Image(PI/3., 15, 16, 10*AU, 150*AU, "test/HLTau_60d_10xrho0.out");
+	*/
 
 	// Generating Density plotting here.
 	/*
@@ -268,6 +270,29 @@ int main(){
 	ConeModel M = ConeModel(PI/6, 1e-14);
 	M.set_adaptive(0.1); // This might be too big of an adaptive. 
 	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/C10x_45d.out");
+	*/
+
+	// Need some tests for BnuT.
+	/*
+	double lambda, nu;
+	double T0=5000;
+	for (int i=0; i<100; i++){
+	  lambda = 0.03*(i+1)/1e4;
+	  nu = con_c/lambda;
+	  cout<<lambda<<" "<<BnuT(T0,nu)<<endl;
+	}
+	*/
+
+	// Check for HL Tau Temperature structure
+	/*
+	HLTau H = HLTau();
+	double a = 1.5625*AU;
+	cout<<H.get_BnuT(a,a,a)<<endl;
+	double r;
+	for (int i=0; i<100; i++){
+	  r = 2.0*(i+1)*AU;
+	  cout<<2*(i+1)<<" "<<H.get_BnuT(r,0,0)/AU<<endl;
+	}
 	*/
 }
 
