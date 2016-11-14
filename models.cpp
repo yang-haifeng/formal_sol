@@ -163,6 +163,7 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 			dz = -step*cos(n_theta);
 
 			xp += dx; yp += dy; zp += dz;
+			if ( reachBoundary(xp, yp, zp) ) break;
 			continue;
 			}
 		}
@@ -501,7 +502,8 @@ HLTau::HLTau(){
 	r_max = 200*AU; Rc = 79*AU;
 	T0 = 30; H0 = 16.8 * AU;
 	//rho0 = 1.964e-15;
-	rho0 = 4.7166961619e-15; // New number from problem_setup.py. Need to find why there was a difference.
+	//rho0 = 4.7166961619e-15; // New number from problem_setup.py. Need to find why there was a difference.
+	rho0 = 1.72229392318e-14; // WTF man, WTF!
 	p = 1.064; q = 0.43;
 	Kext = 1.29; Kpol=Kcpol=0;
 	Ksca = 0.78;
