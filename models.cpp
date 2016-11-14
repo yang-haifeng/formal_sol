@@ -161,6 +161,9 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 			dx = -step*sin(n_theta)*cos(n_phi);
 			dy = -step*sin(n_theta)*sin(n_phi);
 			dz = -step*cos(n_theta);
+
+			xp += dx; yp += dy; zp += dz;
+			continue;
 			}
 		}
 
