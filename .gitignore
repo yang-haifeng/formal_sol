@@ -1,4 +1,5 @@
 fml_sol
+ptest
 *.swp
 *.o
 test/*
