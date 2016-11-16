@@ -1,4 +1,20 @@
-all : fml_sol
+CXX=g++
+CFLAGS=-I.
+DEPS =	utils.h \
+	typedef.h \
+	models.h
 
-fml_sol : *.cpp *.h
-	g++ *.cpp -o fml_sol
+OBJ  =	main.o \
+	models.o \
+	utils.o
+
+%.o: %.c $(DEPS)
+	$(CXX) -c -o $@ $< $(CFLAGS)
+
+fml_sol : $(OBJ)
+	$(CXX) -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f *.o *~
