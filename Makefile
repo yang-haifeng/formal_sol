@@ -20,6 +20,9 @@ fml_sol : $(OBJM) $(OBJ)
 ptest : $(OBJT) $(OBJ)
 	$(CXX) -o $@ $^ $(CFLAGS)
 
+install : fml_sol
+	./install.perl
+
 .PHONY: clean
 
 clean:
