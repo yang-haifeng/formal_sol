@@ -306,6 +306,10 @@ void Model::get_Image(double theta, int Npx, double FoV, string fName){
 void Model::get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName){
 	ofstream Fstream;
 	Fstream.open(fName.c_str());
+	if(!Fstream.is_open()){
+	  cout<<"ERROR: failed to open output file: "<<fName<<endl;
+	  return;
+	}
 
 	// Assuming Npx is even. The center is usually a singularity and doesn't matter.
 	Vector3d e;

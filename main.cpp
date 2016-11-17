@@ -10,7 +10,7 @@ int main(){
   ifstream Fpar;
   Fpar.open("param.inp");
   if(!Fpar.is_open()){
-    cout<<"Failed to open parameter file: param.inp"<<endl;
+    cout<<"ERROR: failed to open parameter file: param.inp"<<endl;
     return 1;
   }
   string line;
@@ -18,7 +18,7 @@ int main(){
   // First line is problem type. Only accept hltau at this point.
   getline(Fpar, line); 
   if( strncmp(line.substr(0,5).c_str(), "hltau", 5) ){
-    cout<<"Error: problems other than HLTau are not implemented yet."<<endl;
+    cout<<"ERROR: problems other than HLTau are not implemented yet."<<endl;
     return 2;
   }
 
