@@ -538,7 +538,7 @@ HLTau::HLTau(){
 	Kext = 1.29; Kpol=Kcpol=0;
 	Ksca = 0.78;
 	lambda = 0.1;
-	tau_ad = -1;
+	tau_ad = 0.1;
 }
 
 void HLTau::set_rho0(double rho){
