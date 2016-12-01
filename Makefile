@@ -2,10 +2,12 @@ CXX=g++
 CFLAGS=-I.
 DEPS =	utils.h \
 	typedef.h \
-	models.h
+	models.h \
+	callers.h
 
 OBJ  =	models.o \
-	utils.o
+	utils.o \
+	callers.o
 
 OBJM =	main.o 
 
