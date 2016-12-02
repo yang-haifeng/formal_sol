@@ -67,7 +67,9 @@ int call_HLTau(){
     for (int i=0;i<nr;i++){
       Fpar>>R;
       cout<<"Calculating at radius: "<<R<<endl;
+      M.get_Circle_Image(theta, 1, np, R*AU, R*AU, Fout, true);
     }
+    break;
   case 2:
     cout<<"Restart Mode not implemented yet. I'll do nothing here for now."<<endl;
     break;
