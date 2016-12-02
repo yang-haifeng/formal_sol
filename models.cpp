@@ -321,7 +321,8 @@ void Model::get_Circle_Image(double theta, int Nr, int Nph, double Rin, double R
 	double R; double phi;
 	Fstream<<"#R(AU)\tphi(rad)\tI\tQ\tU\tV"<<endl;
 	for (int i=0;i<Nr; i++){
-	R = Rin * exp( log(Rout/Rin) * i/(Nr-1) );
+	if (Nr==1) R = Rin;
+	else R = Rin * exp( log(Rout/Rin) * i/(Nr-1) );
 	for (int j=0;j<Nph; j++){
 	  phi = 2*PI*j/Nph;
 	  cout<<i<<"\t"<<j<<"\t"<<R/AU<<"\t"<<phi/PI*180<<endl;
