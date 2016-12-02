@@ -404,7 +404,8 @@ void Model::cal_VM(double x, double y, double z, double n_theta, double n_phi,
 	double sin2phi = 2*xp*yp/(xp*xp+yp*yp);
 	if ((xp*xp+yp*yp)==0) cos2phi=sin2phi=0;
 
-	Vout << Cep, -Cpp*cos2phi, -Cpp*sin2phi, 0;
+	//Vout << Cep, -Cpp*cos2phi, -Cpp*sin2phi, 0; // This needs some fixing. Cep v.s. Cap
+	Vout << Kext-Ksca, 0., 0., 0; // Temporary fixing. Only deals with spherical grains.
 	Mout << Cep, -Cpp*cos2phi, -Cpp*sin2phi, 0,
 	     -Cpp*cos2phi, Cep, 0, Ccpp*sin2phi,
 	     -Cpp*sin2phi, 0, Cep, -Ccpp*cos2phi,
