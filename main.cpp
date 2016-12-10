@@ -23,5 +23,5 @@ int main(){
     cout<<"Error raised in call_HLTau(). Error code: "<<Nresult<<endl;
   }
 
-  return 0;
+  return Nresult;
 }
