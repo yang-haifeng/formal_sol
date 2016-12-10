@@ -32,6 +32,7 @@ class Model{
 		Vector4d Integrate(double x, double y, double z, double n_theta, double n_phi, double step=0.1*AU);
 		Vector4d Image(double x, double y, double z, double l_theta, double l_phi, double step=0.1*AU);
 		void get_Image(double theta, int Npx, double FoV, string fName);
+		void get_Image_Minor(double theta, int Npx, double Rin, double Rout, string fName);
 		void get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, bool fAppend=false);
 		void restart_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, int Nlines);
 		virtual void cal_VM(double x, double y, double z, double n_theta, double n_phi,

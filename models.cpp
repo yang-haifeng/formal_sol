@@ -303,6 +303,49 @@ void Model::get_Image(double theta, int Npx, double FoV, string fName){
 	}
 }
 
+void Model::get_Image_Minor(double theta, int Npx, double Rin, double Rout, string fName){
+	// Npx is number of points in one side. Rin and Rout are the innermost
+	// and outermost radius
+	ofstream Fstream;
+	Fstream.open(fName.c_str());
+
+	// Assuming Npx is even. The center is usually a singularity and doesn't matter.
+	Vector3d de1, de2, de3;
+	de1 << (Rout-Rin)/(Npx-1), 0, 0;
+	de3 << sin(theta), 0, cos(theta);
+	de3 *= AU;
+	Vector3d P0;
+	P0 << Rin,0,0;
+	Vector3d P;
+	Vector4d result;
+	for (int i=0;i<Npx; i++){
+	  cout<<i<<endl;
+	  P = P0 + de1 *i;
+	  if (!reachBoundary(P)){
+	  	while (!reachBoundary(P+de3))P+=de3;
+	  }
+	  else{
+		P-=de3;
+	  	while (reachBoundary(P-de3))P-=de3;
+	  }
+	  result = Image(P(0), P(1), P(2), theta, 0);
+	  Fstream<<(Rin+i*(Rout-Rin)/(Npx-1))/AU<<"\t"<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
+	}
+	for (int i=0;i<Npx; i++){
+	  cout<<i<<endl;
+	  P = -P0 - de1 *i;
+	  if (!reachBoundary(P)){
+	  	while (!reachBoundary(P+de3))P+=de3;
+	  }
+	  else{
+		P-=de3;
+	  	while (reachBoundary(P-de3))P-=de3;
+	  }
+	  result = Image(P(0), P(1), P(2), theta, 0);
+	  Fstream<<-(Rin+i*(Rout-Rin)/(Npx-1))/AU<<"\t"<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
+	}
+}
+
 void Model::get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, bool fAppend){
 	ofstream Fstream;
 	if(fAppend) Fstream.open(fName.c_str(), ios::out | ios::app);
