@@ -73,8 +73,22 @@ int call_HLTau(){
   case 2:
     cout<<"Restart Mode not implemented yet. I'll do nothing here for now."<<endl;
     break;
+  case 3:
+    cout<<"Doing calculation slice by slice."<<endl;
+    // Eighth line is Number of points in Radial direction
+    Fpar>>nr; getline(Fpar, line);
+    Fpar>>np; getline(Fpar, line);
+
+    // 10th and 11th lines are number of threads and id of this thread
+    int Nthreads, IDthread;
+    Fpar>>Nthreads; getline(Fpar, line);
+    Fpar>>IDthread; getline(Fpar, line);
+    cout<<Nthreads<<" threads in total. This is thread #"<<IDthread<<"."<<endl;
+
+    M.get_Slice_Image(theta, nr, np, 10*AU, 150*AU, Fout, Nthreads, IDthread);
+    break;
   default:
-    cout<<"ERROR: Calculation Mode "<<NMode<<" is not valid. please use 0 for standard mode, 1 for given radius and 2 for restart."<<endl;
+    cout<<"ERROR: Calculation Mode "<<NMode<<" is not valid. please use 0 for standard mode, 1 for given radius and 2 for restart. 3 is for doing slice calculation."<<endl;
     return 3;
   }
 
