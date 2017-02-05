@@ -311,7 +311,7 @@ int main(){
 	SlabSphGrain SSG = SlabSphGrain(30, 1e-14, H, 200*AU);
 	SSG.set_Kappa(7.381826e-01+6.350236, 6.350236);
 	double inc = PI/4;
-	SSG.Image(H*tan(inc), 0, H, inc, 0);
+	cout<<SSG.Image(H*tan(inc), 0, H, inc, 0);
 
 }
 
