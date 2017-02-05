@@ -71,6 +71,8 @@ class SlabSphGrain : public SlabUniform{
 	public:
 		SlabSphGrain();
 		SlabSphGrain(double Temp, double rho, double height, double rm);
+		void set_Kappa(double kext, double ksca);
+		double get_BnuT(double z);
 		void get_Orientation(double x, double y, double z, double &theta, double &phi);
 };
 

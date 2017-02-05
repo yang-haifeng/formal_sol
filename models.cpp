@@ -605,6 +605,14 @@ SlabSphGrain::SlabSphGrain(double Temp, double rho, double height, double rm){
 	rho0 = rho;
 }
 
+void SlabSphGrain::set_Kappa(double kext, double ksca){
+	Kext = kext; Ksca = ksca;
+}
+
+double SlabSphGrain::get_BnuT(double z){
+	return 1; // Uniform temperature and set Bnu(T) as scaling.
+}
+
 void SlabSphGrain::get_Orientation(double x, double y, double z, double &theta, double &phi){
 	//double epsilon = 0.05;
 	theta = 0.; 
