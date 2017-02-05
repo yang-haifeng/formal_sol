@@ -20,6 +20,13 @@ int call_HLTau(){
   Fpar>>rho0;
   getline(Fpar, line);
 
+  // Add one line for Hfactor. 
+  // Note that previous parameter file will fail because of this. 
+  // Need to add one line with only number 1 in it.
+  double Hfactor;
+  Fpar>>Hfactor;
+  getline(Fpar, line);
+
   // Third and forth lines are extinction and scattering opacity, respectively.
   double Cabs, Csca;
   Fpar>>Cabs;
@@ -51,6 +58,7 @@ int call_HLTau(){
   M.set_kappa(Cabs+Csca, Csca);
   if (rho0!=-1) M.set_rho0(rho0);
   else cout<<"Using default density profile."<<endl;
+  M.multiply_H0(Hfactor);
 
   switch(NMode){
   case 0:

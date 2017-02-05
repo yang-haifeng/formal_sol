@@ -644,6 +644,10 @@ void HLTau::multiply_rho0(double ratio){
 	rho0 *= ratio;
 }
 
+void HLTau::multiply_H0(double ratio){
+	H0 *= ratio;
+}
+
 double HLTau::get_BnuT(double x, double y, double z){
 	double Ts0 = 400.; double rs0=3.*AU; double R0 = 10.*AU;
 	double R = sqrt(x*x+y*y);

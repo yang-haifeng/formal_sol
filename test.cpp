@@ -172,17 +172,17 @@ int main(){
 	// Here's the HL Tau model
 	/*
 	HLTau M = HLTau();
-	M.set_kappa(0.3899+0.418e-2, 0.4178e-2);
+	//M.set_kappa(0.3899+0.418e-2, 0.4178e-2);
+	M.set_kappa(0.553521E+00 + 0.469887E+01, 0.469887E+01);
 	M.set_adaptive(0.1);
+	//cout<<M.Image(10*AU,0,0,0.,0)<<endl;
 	cout<<M.Image(10*AU,0,0,0.,0)<<endl;
 	*/
-	/*
 	//M.multiply_rho0();
-	M.multiply_rho0(10);
+	//M.multiply_rho0(10);
 	//cout<<M.Image(10*AU,10*AU,100*AU,PI/4.,0)<<endl;
 	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
-	M.get_Circle_Image(PI/3., 15, 16, 10*AU, 150*AU, "test/HLTau_60d_10xrho0.out");
-	*/
+	//M.restart_Circle_Image(PI/4., 15, 16, 10*AU, 150*AU, "test/HLTau_vo_a100micron.out", 127);
 
 	// Generating Density plotting here.
 	/*
