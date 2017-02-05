@@ -299,12 +299,19 @@ int main(){
 
 	// Let's use test to calculate polarization degree along minor axis
 	// for HL Tau model
-	HLTau M = HLTau();
+	//HLTau M = HLTau();
 	//M.set_kappa(7.381826e-01+6.350236, 6.350236);
-	M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
-	M.set_adaptive(0.1);
+	//M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
+	//M.set_adaptive(0.1);
 	//M.multiply_rho0(0.1);
-	M.get_Image_Minor(PI/4, 10, 10*AU, 150*AU, "test/minor_original.dat");
+	//M.get_Image_Minor(PI/4, 10, 10*AU, 150*AU, "test/minor_original.dat");
+
+	// Uniform Slab model to compare with analytical work
+	double H = 50*AU;
+	SlabSphGrain SSG = SlabSphGrain(30, 1e-14, H, 200*AU);
+	SSG.set_Kappa(7.381826e-01+6.350236, 6.350236);
+	double inc = PI/4;
+	SSG.Image(H*tan(inc), 0, H, inc, 0);
 
 }
 
