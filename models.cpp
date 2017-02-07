@@ -185,6 +185,11 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 }
 
 Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi, double step0){
+	// x,y,z define the location of the starting point for integration.
+	// l_theta, l_phi define the light path
+	// step0 is the maximum integration step. 
+	// If tau_ad is not defined (-1 as default), step0 is the integration step.
+
 	Matrix4d T = Matrix4d(Vector4d::Constant(1).asDiagonal());
 	Vector4d result = Vector4d::Constant(0);
 	double rho, bnuT;
@@ -208,16 +213,16 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 		rho = get_Rho(xp, yp, zp);
 		bnuT = get_BnuT(xp, yp, zp);
 
-		if (tau_ad>0){
+		if (tau_ad>0){ // For new tau_ad, step is adjusted accordingly. 
 			if (rho != 0){
 			step = tau_ad / rho / Kext;
-			if (step>AU) step=AU;
+			if (step>step0) step=step0;
 			dx = -step*sin(l_theta)*cos(l_phi);
 			dy = -step*sin(l_theta)*sin(l_phi);
 			dz = -step*cos(l_theta);
 			}
 			else{
-			step = AU;
+			step = step0;
 			dx = -step*sin(l_theta)*cos(l_phi);
 			dy = -step*sin(l_theta)*sin(l_phi);
 			dz = -step*cos(l_theta);
