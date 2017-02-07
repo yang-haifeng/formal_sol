@@ -304,7 +304,7 @@ int main(){
 	//M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
 	//M.multiply_rho0(0.1);
 	//M.get_Image_Minor(PI/4, 10, 10*AU, 150*AU, "test/minor_original.dat");
-	theta = PI/4;
+	double theta = PI/4;
         Vector3d e;
         e << sin(theta), 0, cos(theta);
         e *= AU;
@@ -313,8 +313,8 @@ int main(){
 	R = 20*AU;
         phi = 0.;
         P << R*cos(phi), R*sin(phi), 0;
-        while (!reachBoundary(P+e)) P+=e;
-        cout<<Image(P(0), P(1), P(2), theta, 0)<<endl;
+        while (!M.reachBoundary(P+e)) P+=e;
+        cout<<M.Image(P(0), P(1), P(2), theta, 0)<<endl;
 
 	// Uniform Slab model to compare with analytical work
 	//double H = 50*AU;
