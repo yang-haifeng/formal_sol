@@ -29,8 +29,8 @@ class Model{
 		bool reachBoundary(Vector3d P);
 		virtual Matrix4d get_ZMatrix(double theta_i, double phi_i, double theta_o, double phi_o);
 
-		Vector4d Integrate(double x, double y, double z, double n_theta, double n_phi, double step=0.1*AU);
-		Vector4d Image(double x, double y, double z, double l_theta, double l_phi, double step=0.1*AU);
+		Vector4d Integrate(double x, double y, double z, double n_theta, double n_phi, double step=AU);
+		Vector4d Image(double x, double y, double z, double l_theta, double l_phi, double step=AU);
 		void get_Image(double theta, int Npx, double FoV, string fName);
 		void get_Image_Minor(double theta, int Npx, double Rin, double Rout, string fName);
 		void get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, bool fAppend=false);
