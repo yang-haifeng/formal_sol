@@ -197,8 +197,8 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 	double theta1, phi1;
 	double theta2, phi2;
 	while (true){
-		//cout<<"***********************************************"<<endl;
-		//cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<"\t"<<step/AU<<endl;
+		cout<<"***********************************************"<<endl;
+		cout<<xp/AU<<"\t"<<yp/AU<<"\t"<<zp/AU<<"\t"<<step/AU<<endl;
 		rho = get_Rho(xp, yp, zp);
 		bnuT = get_BnuT(xp, yp, zp);
 
@@ -211,10 +211,15 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 			dz = -step*cos(l_theta);
 			}
 			else{
+			cout<<"Density is 0. "<<rho<<endl;
 			step = AU;
 			dx = -step*sin(l_theta)*cos(l_phi);
 			dy = -step*sin(l_theta)*sin(l_phi);
 			dz = -step*cos(l_theta);
+
+			xp += dx; yp += dy; zp += dz;
+			if ( reachBoundary(xp, yp, zp) ) break;
+			continue;
 			}
 		}
 
