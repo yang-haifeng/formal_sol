@@ -138,6 +138,11 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 	// n_theta, n_phi define the light path
 	// step0 is the maximum integration step. 
 	// If tau_ad is not defined (-1 as default), step0 is the integration step.
+	//
+	// Note that the step0 is not accessible through simply calling get_Image or 
+	// similar functions. So it's not accessible for the users as well. This is not
+	// complete at this point. I'll change the default value of step0 in models.h
+	// when I need to but in the long term, this should get fixed. 
 
 	Matrix4d T = Matrix4d(Vector4d::Constant(1).asDiagonal());
 	Vector4d result = Vector4d::Constant(0);
