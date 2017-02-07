@@ -227,6 +227,12 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 			dy = -step*sin(l_theta)*sin(l_phi);
 			dz = -step*cos(l_theta);
 			}
+
+			// If density is zero, skip all the calculations. 
+			// Move the point and check if reachBoundary.
+			xp += dx; yp += dy; zp += dz;
+			if ( reachBoundary(xp, yp, zp) ) break;
+			continue;
 		}
 
 		cal_VM(xp, yp, zp, l_theta, l_phi, Vabs, Mext);
