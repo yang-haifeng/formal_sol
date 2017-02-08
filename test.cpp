@@ -301,6 +301,7 @@ int main(){
 	// for HL Tau model
 	HLTau M = HLTau();
 	M.set_kappa(7.381826e-01+6.350236, 6.350236);
+	M.multiply_rho0(10);
 	M.multiply_H0(0.1);
 	//M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
 	//M.multiply_rho0(0.1);
@@ -315,12 +316,15 @@ int main(){
         phi = 0.;
         P << R*cos(phi), R*sin(phi), 0;
         while (!M.reachBoundary(P+e)) P+=e;
+	Vector4d result;
+	result = M.Image(P(0), P(1), P(2), theta, 0);
+        cout<<result<<endl;
+
+	/*
 	fstream Fout;
 	Fout.open("test/test_thinner_step0_1au", fstream::out);
-	Vector4d result;
-	result = M.Image(P(0), P(1), P(2), theta, 0, AU);
-        cout<<result<<endl;
         Fout<<result<<endl;
+	*/
 
 	// Uniform Slab model to compare with analytical work
 	//double H = 50*AU;
