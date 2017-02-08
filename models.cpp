@@ -151,13 +151,13 @@ Vector4d Model::Integrate(double x, double y, double z, double n_theta, double n
 		if (tau_ad>0){
 			if (rho != 0){
 			step = tau_ad / rho / Kext;
-			if (step>0.1*AU) step=0.1*AU;
+			if (step>step0) step=step0;
 			dx = -step*sin(n_theta)*cos(n_phi);
 			dy = -step*sin(n_theta)*sin(n_phi);
 			dz = -step*cos(n_theta);
 			}
 			else{
-			step = 0.1*AU;
+			step = step0;
 			dx = -step*sin(n_theta)*cos(n_phi);
 			dy = -step*sin(n_theta)*sin(n_phi);
 			dz = -step*cos(n_theta);
@@ -205,16 +205,21 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 		if (tau_ad>0){
 			if (rho != 0){
 			step = tau_ad / rho / Kext;
-			if (step>0.1*AU) step=0.1*AU;
+			if (step>step0) step=step0;
 			dx = -step*sin(l_theta)*cos(l_phi);
 			dy = -step*sin(l_theta)*sin(l_phi);
 			dz = -step*cos(l_theta);
 			}
 			else{
-			step = 0.1*AU;
+			//cout<<"Density is 0. "<<rho<<endl;
+			step = step0;
 			dx = -step*sin(l_theta)*cos(l_phi);
 			dy = -step*sin(l_theta)*sin(l_phi);
 			dz = -step*cos(l_theta);
+
+			xp += dx; yp += dy; zp += dz;
+			if ( reachBoundary(xp, yp, zp) ) break;
+			continue;
 			}
 		}
 
