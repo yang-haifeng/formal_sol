@@ -301,11 +301,6 @@ int main(){
 	// for HL Tau model
 	HLTau M = HLTau();
 	M.set_kappa(7.381826e-01+6.350236, 6.350236);
-	M.multiply_rho0(10);
-	M.multiply_H0(0.1);
-	//M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
-	//M.multiply_rho0(0.1);
-	//M.get_Image_Minor(PI/4, 10, 10*AU, 150*AU, "test/minor_original.dat");
 	double theta = PI/4;
         Vector3d e;
         e << sin(theta), 0, cos(theta);
@@ -314,11 +309,61 @@ int main(){
         double R; double phi;
 	R = 10*AU;
         phi = 0.;
+	Vector4d result;
+	double p1, p2;
+	double H = 16.8;
+	ofstream Fout;
+	Fout.open("out.txt");
+	double step=AU;
+	for(int i=0; i<11; i++){
+	  cout<<"The current Height is: "<<H<<" AU"<<endl;
+
+          P << R*cos(phi), R*sin(phi), 0;
+          while (!M.reachBoundary(P+e)) P+=e;
+	  cout<<"Done finding the outer edge."<<endl;
+	  result = M.Image(P(0), P(1), P(2), theta, 0, step);
+	  p1 = result(1)/result(0);
+	  cout<<"Done calculation. p1="<<p1<<endl;
+
+          P << R*cos(phi+PI), R*sin(phi+PI), 0;
+          while (!M.reachBoundary(P+e)) P+=e;
+	  cout<<"Done finding the outer edge."<<endl;
+	  result = M.Image(P(0), P(1), P(2), theta, 0, step);
+	  p2 = result(1)/result(0);
+	  cout<<"Done calculation. p2="<<p2<<endl;
+
+	  Fout<<H<<" "<<p1<<" "<<p2<<endl;
+	  cout<<"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="<<endl;
+
+	  M.multiply_rho0(2);
+	  M.multiply_H0(0.5);
+	  H*=0.5;
+	  step*=0.5;
+	}
+
+	/*
+	HLTau M = HLTau();
+	M.set_kappa(7.381826e-01+6.350236, 6.350236);
+	double theta = PI/4;
+        Vector3d e;
+        e << sin(theta), 0, cos(theta);
+        e *= AU;
+        Vector3d P;
+        double R; double phi;
+	R = 10*AU;
+        phi = 0.;
+	Vector4d result;
+	double p1, p2;
+	double H = 16.8;
+	ofstream Fout;
+	Fout.open("out.txt");
+	double step=AU;
         P << R*cos(phi), R*sin(phi), 0;
         while (!M.reachBoundary(P+e)) P+=e;
-	Vector4d result;
-	result = M.Image(P(0), P(1), P(2), theta, 0);
-        cout<<result<<endl;
+	cout<<"Done finding the outer edge."<<endl;
+	result = M.Image(P(0), P(1), P(2), theta, 0, step);
+	cout<<result<<endl;
+	*/
 
 	/*
 	fstream Fout;
