@@ -680,6 +680,61 @@ void HLTau::set_kappa(double kext, double ksca){
 }
 
 /////////////////////////////////////////////////////////////////////////////
+// Warped disk model. With HLTau inherited
+
+Warped::Warped(){
+	r_max = 200*AU; Rc = 79*AU;
+	T0 = 70; H0 = 1.68 * AU;
+	//rho0 = 1.964e-15;
+	//rho0 = 4.7166961619e-15; // New number from problem_setup.py. Need to find why there was a difference.
+	rho0 = 1e-15; // WTF man, WTF!
+	p = 1.064; q = 0.43;
+	Kext = 1.29; Kpol=Kcpol=0;
+	Ksca = 0.78;
+	lambda = 0.1;
+	tau_ad = 0.1;
+
+	imax = 10./180*PI;
+}
+
+double Warped::get_BnuT(double x, double y, double z){
+	double Ts0 = 400.; double rs0=3.*AU; double R0 = 10.*AU;
+	double R = sqrt(x*x+y*y);
+	if (R<AU) return 0;
+
+	double inc = imax/r_max*R;
+	double phi=atan2(y, x);
+	double phip=atan2( sin(phi)/cos(inc), cos(phi)/cos(inc) );
+	double z0 = R*acos(-sin(phip)*sin(inc));
+	double zz = z-z0;
+
+	double r = sqrt(x*x+y*y+zz*zz);
+	double HR = H0*pow(R/Rc, 1.5-q/2);
+	double W = exp(-pow(zz/3/HR, 2));
+	double Td = W*T0*pow(R0/R, q) + (1-W)*Ts0*pow(rs0/r, q);
+	return BnuT(Td, con_c/lambda);
+	// Below is previous implementation.
+	//return pow(R/Rc, -q); // Normalized to BnuT(T0) for now.
+}
+
+double Warped::get_Rho(double x, double y, double z){
+	double R = sqrt(x*x + y*y);
+	if (R<AU) return 0;
+
+	double inc = imax/r_max*R;
+	double phi=atan2(y, x);
+	double phip=atan2( sin(phi)/cos(inc), cos(phi)/cos(inc) );
+	double z0 = R*acos(-sin(phip)*sin(inc));
+	double zz = z-z0;
+
+	double HR = H0*pow(R/Rc, 1.5-q/2);
+	if (zz>3*HR) return 0;
+	return rho0 * pow(R/Rc, -p)
+		* exp(-pow(R/Rc, 3.5-p-q/2))
+		* exp(-zz*zz/HR/HR);
+}
+
+/////////////////////////////////////////////////////////////////////////////
 // ConeModel Methods. A disk with constant flaring angle.
 
 ConeModel::ConeModel(double theta, double rho){

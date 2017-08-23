@@ -90,6 +90,15 @@ class HLTau : public Model{
 		void set_kappa(double kext, double ksca);
 };
 
+class Warped : public HLTau{
+	protected:
+		int imax;
+	public:
+		Warped();
+		double get_BnuT(double x, double y, double z);
+		double get_Rho(double x, double y, double z);
+};
+
 class ConeModel : public Model{
 	protected:
 		double theta_cone;
