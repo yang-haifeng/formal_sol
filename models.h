@@ -33,6 +33,7 @@ class Model{
 		Vector4d Image(double x, double y, double z, double l_theta, double l_phi, double step=0.1*AU);
 		void get_Image(double theta, int Npx, double FoV, string fName);
 		void get_Image_Minor(double theta, int Npx, double Rin, double Rout, string fName);
+		void get_Image_Major(double theta, int Npx, double Rin, double Rout, string fName);
 		void get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, bool fAppend=false);
 		void get_Slice_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, int Nthreads, int threadID);
 		void restart_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, int Nlines);
@@ -92,11 +93,12 @@ class HLTau : public Model{
 
 class Warped : public HLTau{
 	protected:
-		int imax;
+		double imax;
 	public:
 		Warped();
 		double get_BnuT(double x, double y, double z);
 		double get_Rho(double x, double y, double z);
+		void test();
 };
 
 class ConeModel : public Model{

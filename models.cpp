@@ -346,6 +346,49 @@ void Model::get_Image_Minor(double theta, int Npx, double Rin, double Rout, stri
 	}
 }
 
+void Model::get_Image_Major(double theta, int Npx, double Rin, double Rout, string fName){
+	// Npx is number of points in one side. Rin and Rout are the innermost
+	// and outermost radius
+	ofstream Fstream;
+	Fstream.open(fName.c_str());
+
+	// Assuming Npx is even. The center is usually a singularity and doesn't matter.
+	Vector3d de1, de2, de3;
+	de1 << 0, (Rout-Rin)/(Npx-1), 0;
+	de3 << sin(theta), 0, cos(theta);
+	de3 *= AU;
+	Vector3d P0;
+	P0 << 0,Rin,0;
+	Vector3d P;
+	Vector4d result;
+	for (int i=0;i<Npx; i++){
+	  cout<<i<<endl;
+	  P = P0 + de1 *i;
+	  if (!reachBoundary(P)){
+	  	while (!reachBoundary(P+de3))P+=de3;
+	  }
+	  else{
+		P-=de3;
+	  	while (reachBoundary(P-de3))P-=de3;
+	  }
+	  result = Image(P(0), P(1), P(2), theta, 0);
+	  Fstream<<(Rin+i*(Rout-Rin)/(Npx-1))/AU<<"\t"<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
+	}
+	for (int i=0;i<Npx; i++){
+	  cout<<i<<endl;
+	  P = -P0 - de1 *i;
+	  if (!reachBoundary(P)){
+	  	while (!reachBoundary(P+de3))P+=de3;
+	  }
+	  else{
+		P-=de3;
+	  	while (reachBoundary(P-de3))P-=de3;
+	  }
+	  result = Image(P(0), P(1), P(2), theta, 0);
+	  Fstream<<-(Rin+i*(Rout-Rin)/(Npx-1))/AU<<"\t"<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
+	}
+}
+
 void Model::get_Circle_Image(double theta, int Nr, int Nph, double Rin, double Rout, string fName, bool fAppend){
 	ofstream Fstream;
 	if(fAppend) Fstream.open(fName.c_str(), ios::out | ios::app);
@@ -684,17 +727,27 @@ void HLTau::set_kappa(double kext, double ksca){
 
 Warped::Warped(){
 	r_max = 200*AU; Rc = 79*AU;
-	T0 = 70; H0 = 1.68 * AU;
+	T0 = 70; H0 = 1.68 * AU/2.;
 	//rho0 = 1.964e-15;
 	//rho0 = 4.7166961619e-15; // New number from problem_setup.py. Need to find why there was a difference.
-	rho0 = 1e-15; // WTF man, WTF!
+	rho0 = 1e-14; // WTF man, WTF!
 	p = 1.064; q = 0.43;
 	Kext = 1.29; Kpol=Kcpol=0;
 	Ksca = 0.78;
 	lambda = 0.1;
 	tau_ad = 0.1;
 
-	imax = 10./180*PI;
+	imax = 20./180*PI;
+}
+
+double warpingAngle(double inc, double x, double y){
+	double phi=atan2(y, x);
+	phi = phi>PI ? 2*PI-phi : phi;
+	//double phi=fabs(atan2(y, x)-PI)/2;
+	double phip=atan2( sin(phi/2)/cos(inc), cos(phi/2)/cos(inc) );
+	double theta0 = acos(-sin(phip)*sin(inc)); 
+
+	return theta0;
 }
 
 double Warped::get_BnuT(double x, double y, double z){
@@ -703,9 +756,8 @@ double Warped::get_BnuT(double x, double y, double z){
 	if (R<AU) return 0;
 
 	double inc = imax/r_max*R;
-	double phi=atan2(y, x);
-	double phip=atan2( sin(phi)/cos(inc), cos(phi)/cos(inc) );
-	double z0 = R*acos(-sin(phip)*sin(inc));
+	double theta0 = warpingAngle(inc, x, y);
+	double z0 = R*(PI/2-theta0);
 	double zz = z-z0;
 
 	double r = sqrt(x*x+y*y+zz*zz);
@@ -722,9 +774,8 @@ double Warped::get_Rho(double x, double y, double z){
 	if (R<AU) return 0;
 
 	double inc = imax/r_max*R;
-	double phi=atan2(y, x);
-	double phip=atan2( sin(phi)/cos(inc), cos(phi)/cos(inc) );
-	double z0 = R*acos(-sin(phip)*sin(inc));
+	double theta0 = warpingAngle(inc, x, y);
+	double z0 = R*(PI/2-theta0);
 	double zz = z-z0;
 
 	double HR = H0*pow(R/Rc, 1.5-q/2);
@@ -732,6 +783,17 @@ double Warped::get_Rho(double x, double y, double z){
 	return rho0 * pow(R/Rc, -p)
 		* exp(-pow(R/Rc, 3.5-p-q/2))
 		* exp(-zz*zz/HR/HR);
+}
+
+void Warped::test(){
+	for(int i=0; i<21; i++){
+	  double x = (10*i-100)*AU;
+	  for(int j=0; j<21; j++){
+	    double y = (10*j-100)*AU;
+	    cout<<x/AU<<"\t"<<y/AU<<"\t";
+	    this->get_Rho(x, y, 0.);
+	  }
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
