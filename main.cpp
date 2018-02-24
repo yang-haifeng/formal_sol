@@ -10,17 +10,23 @@ int main(){
   }
   string line;
 
-  // First line is problem type. Only accept hltau at this point.
+  // First line is problem type. 
+  int Nresult;
   getline(Fpar, line); 
-  if( strncmp(line.substr(0,5).c_str(), "hltau", 5) ){
-    cout<<"ERROR: problems other than HLTau are not implemented yet."<<endl;
-    return 2;
+  if( strncmp(line.substr(0,5).c_str(), "hltau", 5) == 0 ){
+    Nresult = call_HLTau();
+  }
+  else if( strncmp(line.substr(0,6).c_str(), "warped", 6) == 0 ){
+    Nresult = call_warped();
+  }
+  else{
+    cout<<"ERROR: problem type not understood. The first line reads:"<<endl;
+    cout<<line<<endl;
   }
   Fpar.close();
 
-  int Nresult = call_HLTau();
   if( Nresult!=0 ){
-    cout<<"Error raised in call_HLTau(). Error code: "<<Nresult<<endl;
+    cout<<"Error raised during the calculation. Error code: "<<Nresult<<endl;
   }
 
   return Nresult;
