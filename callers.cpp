@@ -102,3 +102,13 @@ int call_HLTau(){
 
   return 0;
 }
+
+int call_warped(){
+  cout<<"Hello!"<<endl;
+  Warped M = Warped();
+  //M.get_Circle_Image(PI/4., 15, 16, 10*AU, 150*AU, "result.dat");
+  //M.get_Image_Major(PI/4., 25, 10*AU, 150*AU, "result.dat");
+  M.get_Image_Major(PI/4., 5, 10*AU, 150*AU, "result.dat");
+  //M.test();
+  return 0;
+}
