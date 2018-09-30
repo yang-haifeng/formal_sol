@@ -3,9 +3,11 @@
 #include "typedef.h"
 #include "models.h"
 #include "utils.h"
+#include "adiff.h"
 using namespace std;
 
 int main(){
+	//**************************************** 
 	// Testing No.1: I = 1-e^(-tau);
 	/*
 	Vector4d Vt;
@@ -16,11 +18,12 @@ int main(){
 	}
 	*/
 
-
+	//**************************************** 
 	// This simply tests the orientation setup
 	//SlabTwisted M1 = SlabTwisted();
 	//M1.test();
 	
+	//**************************************** 
 	// This test against Martin 1974
 	/*
 	Vector4d Vt;
@@ -35,6 +38,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// Tests for get_psi
 	/*
 	double theta;
@@ -56,6 +60,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// Tests for to_grain_frame
 	/*
 	double btheta = 1., bphi = 0;
@@ -72,6 +77,7 @@ int main(){
 	//}
 	*/
 
+	//**************************************** 
 	// Test for Z_Matrix from Rayleigh Limit.
 	/*
 	Model M = Model();
@@ -82,6 +88,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// The following test is the test for Rayleigh limit with diff incl.
 	/*
 	SlabSphGrain M1 = SlabSphGrain(30, 1e-16, 10*AU, 200*AU);
@@ -98,6 +105,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// Rayleigh Test with different phi angle at theta = PI/4.
 	/*
 	SlabSphGrain M1 = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
@@ -114,9 +122,11 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	//SlabSphGrain M1 = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
 	//cout<<M1.Image(0,0,10*AU,PI/4,0)<<endl;
 
+	//**************************************** 
 	// Let's generate a full image.
 	/*
 	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
@@ -143,6 +153,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// This is test for the weird angle problem.
 	/*
 	SlabSphGrain M = SlabSphGrain(30, 1e-15, 10*AU, 200*AU);
@@ -169,6 +180,7 @@ int main(){
 	Fout<<theta/PI*180<<"\t"<<y/AU<<"\t"<<result[0]<<"\t"<<result[1]<<"\t"<<result[2]<<"\t"<<result[3]<<endl;
 	*/
 
+	//**************************************** 
 	// Here's the HL Tau model
 	/*
 	HLTau M = HLTau();
@@ -184,6 +196,7 @@ int main(){
 	//M.get_Image(PI/4, 30, 200*AU, "test/45degree_30x30_200au_doublerho0.out");
 	//M.restart_Circle_Image(PI/4., 15, 16, 10*AU, 150*AU, "test/HLTau_vo_a100micron.out", 127);
 
+	//**************************************** 
 	// Generating Density plotting here.
 	/*
 	HLTau M = HLTau();
@@ -194,10 +207,11 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// This doesn't seems to be useful anymore.
 	/*
 	HLTau M = HLTau();
-	M.set_adaptive(0.005);
+	//M.set_adaptive(0.005);
 	double theta = PI/4;
 	int Npx = 30;
 	double FoV = 200*AU;
@@ -216,7 +230,7 @@ int main(){
         Vector4d result;
         //for (int i=0;i<Npx; i++){
         //for (int j=0;j<Npx; j++){
-	int i=15, j=28;
+	int i=15, j=16;
           cout<<i<<"\t"<<j<<endl;
           P = P0 + de1 *i + de2*j;
           cout<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
@@ -226,10 +240,11 @@ int main(){
           cout<<P(0)/AU<<"\t"<<P(1)/AU<<"\t"<<P(2)/AU<<"\t"<<endl;
           result = M.Image(P(0), P(1), P(2), theta, 0); 
           cout<<result(0)<<"\t"<<result(1)<<"\t"<<result(2)<<"\t"<<result(3)<<endl;
-        //}
-        //}
 	*/
+        //}
+        //}
 
+	//**************************************** 
 	// Some test for the ZMatrix
 	// This is the case for xOy plane scattering
 	/*
@@ -241,6 +256,8 @@ int main(){
 		cout<<i<<"\t"<<Z(0,0)<<"\t"<<Z(0,1)<<"\t"<<Z(0,2)<<"\t"<<Z(1,0)<<"\t"<<Z(1,1)<<"\t"<<Z(1,2)<<"\t"<<Z(2,0)<<"\t"<<Z(2,1)<<"\t"<<Z(2,2)<<"\t"<<Z(3,3)<<endl;
 	}
 	*/
+
+	//**************************************** 
 	// Inclined disk planar scattering
 	/*
 	Model M = Model();
@@ -252,6 +269,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// Let's do some ConeModel.
 	// Start with reachBoundary test and density, temperature.
 	/*
@@ -274,6 +292,7 @@ int main(){
 	M.get_Circle_Image(PI/4, 15, 16, 10*AU, 150*AU, "test/C10x_45d.out");
 	*/
 
+	//**************************************** 
 	// Need some tests for BnuT.
 	/*
 	double lambda, nu;
@@ -285,6 +304,7 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// Check for HL Tau Temperature structure
 	/*
 	HLTau H = HLTau();
@@ -297,14 +317,18 @@ int main(){
 	}
 	*/
 
+	//**************************************** 
 	// Let's use test to calculate polarization degree along minor axis
 	// for HL Tau model
-	HLTau M = HLTau();
+	//HLTau M = HLTau();
 	//M.set_kappa(7.381826e-01+6.350236, 6.350236);
-	M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
-	M.set_adaptive(0.1);
+	//M.set_kappa(5.176868e-01+5.640267e-03, 5.640267e-03);
+	//M.set_adaptive(0.1);
 	//M.multiply_rho0(0.1);
-	M.get_Image_Minor(PI/4, 10, 10*AU, 150*AU, "test/minor_original.dat");
+	//M.get_Image_Minor(PI/4, 10, 10*AU, 150*AU, "test/minor_original.dat");
+
+	ADiff M = ADiff();
+	M.get_Slice_Image(PI/4, 10, 10, 10*AU, 150*AU, "result.txt", 2, 0);
 
 }
 

@@ -3,11 +3,13 @@ CFLAGS=-I.
 DEPS =	utils.h \
 	typedef.h \
 	models.h \
-	callers.h
+	callers.h \
+	adiff.h
 
 OBJ  =	models.o \
 	utils.o \
-	callers.o
+	callers.o \
+	adiff.o
 
 OBJM =	main.o 
 

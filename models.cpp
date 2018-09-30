@@ -256,7 +256,7 @@ Vector4d Model::Image(double x, double y, double z, double l_theta, double l_phi
 		}
 
 		result += T*(Vabs * rho * bnuT + Ssca)*step;
-		//cout<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<" "<<endl;
+		cout<<result[0]<<" "<<result[1]<<" "<<result[2]<<" "<<result[3]<<" "<<endl;
 
 		T -= T*Mext * step * rho;
 		xp += dx; yp += dy; zp += dz;
@@ -643,7 +643,11 @@ double HLTau::get_BnuT(double x, double y, double z){
 	double r = sqrt(x*x+y*y+z*z);
 	double HR = H0*pow(R/Rc, 1.5-q/2);
 	double W = exp(-pow(z/3/HR, 2));
-	double Td = W*T0*pow(R0/R, q) + (1-W)*Ts0*pow(rs0/r, q);
+
+	double Rcut = 100.*AU;
+
+	double Td = (W*T0*pow(R0/R, q) + (1-W)*Ts0*pow(rs0/r, q))
+		* exp(-pow(R/Rcut, 2));
 	return BnuT(Td, con_c/lambda);
 	// Below is previous implementation.
 	//return pow(R/Rc, -q); // Normalized to BnuT(T0) for now.
